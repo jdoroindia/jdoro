@@ -38,15 +38,15 @@ export const site = {
   standfirst:
     "Womenswear cut from surplus fabric — the rolls mills and fashion houses leave behind. One roll makes a handful of garments, then it is gone.",
 
-  founder: "Jasleen Dhillon",
+  founder: "Jahnvi Deshlahra",
 
   contact: {
-    email: "atelier@jdoro.com",
-    press: "press@jdoro.com",
-    careers: "workroom@jdoro.com",
-    phone: "+91 98 1000 4520",
-    phoneHref: "+919810004520",
-    whatsapp: "+919810004520",
+    email: "hello@jdoro.in",
+    press: "press@jdoro.in",
+    careers: "careers@jdoro.in",
+    phone: "+91 92032 95690",
+    phoneHref: "+919203295690",
+    whatsapp: "+919203295690",
     studio: {
       /**
        * ─── SET THIS ──────────────────────────────────────────────────────────
