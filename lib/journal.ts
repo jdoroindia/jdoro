@@ -15,6 +15,8 @@ export type JournalEntry = {
   readingMinutes: number;
   texture: TextureName;
   tone: TextureTone;
+  /** Cover image URL. */
+  image?: string;
   /** Body copy, paragraph by paragraph. */
   body: string[];
   featured?: boolean;
@@ -31,6 +33,7 @@ export const journal: JournalEntry[] = [
     readingMinutes: 4,
     texture: "drape",
     tone: "bone",
+    image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1000&q=80",
     body: [
       "The call came on a Tuesday. A mill had woven 40 metres of mulberry silk for a label that then cancelled the collection, which happens more often than anyone outside the industry would guess. The silk was finished, inspected and rolled. It had nowhere to go.",
       "Surplus like this has three normal endings. It sits in a warehouse until the moisture marks it. It is sold by weight to a jobber who resells it as an unnamed fabric. Or it is shredded for filling. None of those endings involve anybody wearing it.",
@@ -50,6 +53,7 @@ export const journal: JournalEntry[] = [
     readingMinutes: 5,
     texture: "seed",
     tone: "shell",
+    image: "https://images.unsplash.com/photo-1596783074918-c84cb06531ca?w=1000&q=80",
     body: [
       "A jacket needs six buttons that agree with each other. Ordering them new takes ten minutes and costs almost nothing. We do not do that, and the reason is not sentiment.",
       "Most new buttons are polyester moulded to look like horn or shell. They are dimensionally perfect and they wear badly: the coating hazes, the edges chip pale, and after two years they no longer match the garment they were sewn to. Real horn, real shell and real brass age at roughly the same rate as good fabric.",
@@ -69,6 +73,7 @@ export const journal: JournalEntry[] = [
     readingMinutes: 3,
     texture: "stitch",
     tone: "shell",
+    image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=1000&q=80",
     body: [
       "Turn up the hem of an inexpensive trouser and you will usually find about a centimetre of fabric folded twice and overlocked. That is the cheapest hem to make and it is unalterable. The trouser can be shortened once, and never lengthened.",
       "Ours are 6 cm deep, which costs us roughly a fifth of a metre of fabric per garment. On a run of fifteen trousers that is three metres — one and a half garments we chose not to make.",
@@ -86,6 +91,7 @@ export const journal: JournalEntry[] = [
     readingMinutes: 3,
     texture: "seed",
     tone: "bone",
+    image: "https://images.unsplash.com/photo-1495385794356-15371f348c31?w=1000&q=80",
     body: [
       "Every piece leaves the workroom with a tag pressed from seed paper — cotton pulp with basil and marigold seed set through it while wet. Soak it overnight, lay it under a centimetre of soil, keep it damp, and it germinates in eight to twelve days.",
       "The line printed on the reverse is the whole reason it exists: by the time your seed grows into a plant, your garment should still be part of your wardrobe. It sets a clock we can be measured against. A basil plant on a windowsill lives for years with attention. So should a jacket.",

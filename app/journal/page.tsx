@@ -34,6 +34,8 @@ export default function JournalPage() {
             >
               <div className="lg:col-span-7">
                 <Media
+                  src={lead.image}
+                  alt={lead.title}
                   texture={lead.texture}
                   tone={lead.tone}
                   ratio="16 / 10"
@@ -71,6 +73,8 @@ export default function JournalPage() {
               <Reveal key={entry.slug} delay={index * 100}>
                 <Link href={`/journal/${entry.slug}`} className="group block">
                   <Media
+                    src={entry.image}
+                    alt={entry.title}
                     texture={entry.texture}
                     tone={entry.tone}
                     ratio="4 / 3"

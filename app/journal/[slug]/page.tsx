@@ -93,6 +93,8 @@ export default async function JournalEntryPage({
         <div className="shell">
           <Reveal>
             <Media
+              src={entry.image}
+              alt={entry.title}
               texture={entry.texture}
               tone={entry.tone}
               ratio="16 / 9"
@@ -141,6 +143,8 @@ export default async function JournalEntryPage({
               <Reveal key={item.slug} delay={index * 100}>
                 <Link href={`/journal/${item.slug}`} className="group block">
                   <Media
+                    src={item.image}
+                    alt={item.title}
                     texture={item.texture}
                     tone={item.tone}
                     ratio="16 / 10"

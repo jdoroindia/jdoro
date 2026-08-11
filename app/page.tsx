@@ -355,6 +355,8 @@ export default function HomePage() {
               <Reveal key={entry.slug} delay={index * 100}>
                 <Link href={`/journal/${entry.slug}`} className="group block">
                   <Media
+                    src={entry.image}
+                    alt={entry.title}
                     texture={entry.texture}
                     tone={entry.tone}
                     ratio="4 / 3"
