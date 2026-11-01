@@ -64,7 +64,7 @@ export function FittingRoomProvider({ children }: { children: ReactNode }) {
       if (prev.some((i) => i.slug === slug)) return prev.filter((i) => i.slug !== slug);
       const p = findProduct(slug);
       if (!p || p.left < 1) return prev;
-      return [...prev, { slug, colour: p.colours[0]?.name ?? "", size: "S" }];
+      return [...prev, { slug, colour: p.colours[0]?.name ?? "", size: "" }];
     });
   }, [findProduct]);
 

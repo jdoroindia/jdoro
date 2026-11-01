@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { browserClient } from "@/lib/supabase/browser";
 import { Wordmark } from "@/components/wordmark";
 import { useFittingRoom } from "@/lib/fitting-room";
 import { useWishlist } from "@/lib/wishlist";
@@ -15,6 +16,17 @@ export function SiteHeader() {
   const saved = wish.ready ? wish.slugs.length : 0;
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  // Shows "Admin" only to signed-in admins. The admins table only returns a row to an admin (RLS).
+  useEffect(() => {
+    const sb = browserClient();
+    sb.auth.getUser().then(async ({ data }) => {
+      if (!data.user) return;
+      const { data: row } = await sb.from("admins").select("email").limit(1).maybeSingle();
+      setIsAdmin(Boolean(row));
+    });
+  }, []);
   const count = ready ? items.length : 0;
 
   const linkCls = (href: string) =>
@@ -52,10 +64,10 @@ export function SiteHeader() {
         </Link>
 
         <nav className="flex min-w-0 items-center justify-end gap-3 md:gap-8" aria-label="Site">
-          <Link href="/search" aria-label="Search" className="-m-1 max-sm:hidden grid min-h-11 min-w-9 place-items-center hover:text-bur">
+          <Link href="/search" aria-label="Search" className="-m-1 max-md:hidden grid min-h-11 min-w-9 place-items-center hover:text-bur">
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.3-2.2L21 21" /></svg>
           </Link>
-          <Link href="/wishlist" aria-label={`Wishlist (${saved})`} className="relative -m-1 grid min-h-11 min-w-9 place-items-center hover:text-bur">
+          <Link href="/wishlist" aria-label={`Wishlist (${saved})`} className="relative -m-1 max-md:hidden grid min-h-11 min-w-9 place-items-center hover:text-bur">
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.9c0 5.4-7.5 10-7.5 10Z" /></svg>
             {saved > 0 && <span className="absolute right-0 top-1.5 grid size-4 place-items-center rounded-full bg-bur text-[0.5625rem] text-shell">{saved}</span>}
           </Link>
@@ -76,7 +88,7 @@ export function SiteHeader() {
 
       {open && (
         <nav id="mobile-nav" className="border-t border-line bg-bone px-5 pb-8 pt-4 md:hidden" aria-label="Mobile">
-          {[...nav.left, ...nav.right, { label: "Wishlist", href: "/wishlist" }, { label: "Search", href: "/search" }, { label: "Bag", href: "/fitting-room" }].map((l) => (
+          {[...nav.left, ...nav.right, { label: saved ? `Wishlist (${saved})` : "Wishlist", href: "/wishlist" }, { label: "Search", href: "/search" }, { label: "Bag", href: "/fitting-room" }, ...(isAdmin ? [{ label: "Admin", href: "/admin" }] : [])].map((l) => (
             <Link
               key={l.href}
               href={l.href}
