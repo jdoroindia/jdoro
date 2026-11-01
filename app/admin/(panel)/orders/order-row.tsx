@@ -15,11 +15,11 @@ const steps = [
 type Line = { name: string; colour: string; size: string; measurements: string | null; price: number };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function OrderRow({ order: o }: { order: any }) {
+export function OrderRow({ order: o, shiprocket }: { order: any; shiprocket: boolean }) {
   const [pending, start] = useTransition();
   const [tracking, setTracking] = useState(o.tracking ?? "");
   const [shipError, setShipError] = useState<string | null>(null);
-  const canBook = ["paid", "cutting"].includes(o.status);
+  const canBook = shiprocket && ["paid", "cutting"].includes(o.status);
   const a = o.address;
   const lines = o.items as Line[];
 

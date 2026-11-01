@@ -28,7 +28,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
       {!orders?.length && <p className="mt-10 text-graphite">No orders yet.</p>}
       <ul className="mt-8 grid gap-4">
         {(orders ?? []).map((o) => (
-          <OrderRow key={o.id} order={o} />
+          <OrderRow key={o.id} order={o} shiprocket={process.env.SHIPROCKET_ENABLED === "true"} />
         ))}
       </ul>
     </>
