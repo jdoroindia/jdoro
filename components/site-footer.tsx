@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Newsletter } from "@/components/newsletter";
 import { Wordmark } from "@/components/wordmark";
 import { footerNav, site } from "@/lib/site";
 
@@ -11,6 +12,10 @@ export function SiteFooter() {
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-shell/70">
             Small drops, made to order in rare-run fabrics by {site.founder}.
           </p>
+          <div className="mt-8">
+            <p className="cap mb-2 text-clay">Hear about the next drop</p>
+            <Newsletter tone="dark" source="footer" />
+          </div>
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-3">
           {footerNav.map((l) => (

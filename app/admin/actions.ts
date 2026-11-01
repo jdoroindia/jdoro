@@ -159,3 +159,47 @@ export async function updateOrder(id: string, patch: { status?: string; tracking
   revalidatePath("/admin/orders");
   revalidatePath(`/order/${id}`);
 }
+
+/** Books the parcel on Shiprocket, saves the AWB, marks the order shipped and emails the customer. */
+export async function shipWithShiprocket(id: string): Promise<{ ok: boolean; error?: string }> {
+  try {
+    const supabase = await requireAdmin();
+    const { bookShipment, shiprocketReady } = await import("@/lib/shiprocket");
+    if (!shiprocketReady()) return { ok: false, error: "Shiprocket isn’t connected. Add SHIPROCKET_EMAIL and SHIPROCKET_PASSWORD." };
+    const { data: o, error } = await supabase.from("orders").select("*").eq("id", id).single();
+    if (error || !o) return { ok: false, error: "Order not found." };
+    if (!["paid", "cutting"].includes(o.status)) return { ok: false, error: "Only paid orders that haven’t shipped can be booked." };
+
+    const r = await bookShipment(o, { orderId: o.shiprocket_order_id, shipmentId: o.shiprocket_shipment_id }, async (ids) => {
+      await supabase.from("orders").update({ shiprocket_order_id: ids.orderId, shiprocket_shipment_id: ids.shipmentId }).eq("id", id);
+    });
+    const { data: shipped } = await supabase
+      .from("orders")
+      .update({ status: "shipped", tracking: r.awb, courier: r.courier ?? null, label_url: r.labelUrl, shiprocket_order_id: r.orderId, shiprocket_shipment_id: r.shipmentId })
+      .eq("id", id)
+      .select("*")
+      .single();
+    if (shipped) await emails.shipped(shipped).catch(() => {});
+    revalidatePath("/admin/orders");
+    revalidatePath(`/order/${id}`);
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: (e as Error).message };
+  }
+}
+
+export async function sendNewsletter(_: unknown, form: FormData) {
+  try {
+    const email = await currentAdmin();
+    if (!email) return { ok: false, message: "Not signed in." };
+    const subject = String(form.get("subject") ?? "").trim();
+    const body = String(form.get("body") ?? "").trim();
+    const test = form.get("mode") === "test";
+    if (!subject || !body) return { ok: false, message: "Add a subject and a message." };
+    const { sendBulletin } = await import("@/lib/newsletter");
+    const n = await sendBulletin(subject, body, test ? email : null, email);
+    return { ok: true, message: test ? `Test sent to ${email}.` : `Sent to ${n} subscriber${n === 1 ? "" : "s"}.` };
+  } catch (e) {
+    return { ok: false, message: (e as Error).message };
+  }
+}

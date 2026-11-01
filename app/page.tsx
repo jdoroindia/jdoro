@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
+import { Newsletter } from "@/components/newsletter";
 import { Reveal } from "@/components/reveal";
 import { getDrop, getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
@@ -161,14 +162,12 @@ export default async function Home() {
             <p className="cap text-olive">Follow the drop</p>
             <p className="mt-3 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-normal text-bur">{site.instagram.handle}</p>
           </div>
-          <a
-            href={site.instagram.href}
-            target="_blank"
-            rel="noreferrer"
-            className="btn border-bur text-bur hover:bg-bur hover:text-shell"
-          >
-            Open Instagram ↗
-          </a>
+          <div className="flex w-full max-w-md flex-col gap-4 md:w-auto">
+            <Newsletter source="home" />
+            <a href={site.instagram.href} target="_blank" rel="noreferrer" className="cap w-fit text-bur underline underline-offset-4">
+              Or follow on Instagram ↗
+            </a>
+          </div>
         </div>
       </section>
 

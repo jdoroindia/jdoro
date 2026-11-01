@@ -31,7 +31,14 @@ export default async function OrderPage({ params }: { params: Promise<{ id: stri
       </h1>
       <p className="mt-3 text-[0.9375rem] text-graphite">
         Status: <b className="font-medium">{label[o.status]}</b>
-        {o.tracking && <> · Tracking: {o.tracking}</>}
+        {o.tracking && (
+          <>
+            {" "}· {o.courier ? `${o.courier} ` : ""}tracking{" "}
+            <a className="underline" target="_blank" rel="noreferrer" href={`https://shiprocket.co/tracking/${encodeURIComponent(o.tracking)}`}>
+              {o.tracking}
+            </a>
+          </>
+        )}
       </p>
       <p className="mt-2 text-[0.875rem] text-ash">Each piece is cut to order, so allow 10–14 days. Save this page to check on your order.</p>
       <ul className="mt-8 border-y border-line">

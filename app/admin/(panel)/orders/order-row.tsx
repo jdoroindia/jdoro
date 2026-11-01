@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import { formatPrice } from "@/lib/products";
 import { cx } from "@/lib/cx";
-import { updateOrder } from "../../actions";
+import { shipWithShiprocket, updateOrder } from "../../actions";
 
 const steps = [
   { id: "paid", label: "Paid" },
@@ -18,6 +18,8 @@ type Line = { name: string; colour: string; size: string; measurements: string |
 export function OrderRow({ order: o }: { order: any }) {
   const [pending, start] = useTransition();
   const [tracking, setTracking] = useState(o.tracking ?? "");
+  const [shipError, setShipError] = useState<string | null>(null);
+  const canBook = ["paid", "cutting"].includes(o.status);
   const a = o.address;
   const lines = o.items as Line[];
 
@@ -71,6 +73,34 @@ export function OrderRow({ order: o }: { order: any }) {
             Save
           </button>
         </div>
+      )}
+      {canBook && (
+        <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-line pt-4">
+          <button
+            type="button"
+            disabled={pending}
+            onClick={() => {
+              if (!confirm("Book a Shiprocket pickup for this order? Shiprocket charges your wallet for the cheapest suitable courier.")) return;
+              setShipError(null);
+              start(async () => {
+                const r = await shipWithShiprocket(o.id);
+                if (!r.ok) setShipError(r.error ?? "Booking failed.");
+              });
+            }}
+            className="btn border-olive bg-olive py-2.5 text-shell hover:bg-ink disabled:opacity-50"
+          >
+            {pending ? "Booking…" : "Book Shiprocket pickup"}
+          </button>
+          <span className="text-[0.75rem] text-ash">Creates the shipment, assigns a courier, requests pickup, saves the AWB and emails the customer.</span>
+          {shipError && <p role="alert" className="w-full border border-error bg-error-soft px-3 py-2 text-[0.8125rem] text-error-ink">{shipError}</p>}
+        </div>
+      )}
+      {(o.courier || o.label_url) && (
+        <p className="mt-3 text-[0.8125rem]">
+          {o.courier && <>Courier: {o.courier} · </>}
+          {o.tracking && <a className="underline" target="_blank" rel="noreferrer" href={`https://shiprocket.co/tracking/${o.tracking}`}>Track</a>}
+          {o.label_url && <> · <a className="underline" target="_blank" rel="noreferrer" href={o.label_url}>Print shipping label</a></>}
+        </p>
       )}
       <a href={`/order/${o.id}`} target="_blank" className="mt-3 inline-block text-[0.75rem] text-ash underline">Customer’s order page ↗</a>
     </li>

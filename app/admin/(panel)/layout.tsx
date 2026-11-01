@@ -17,6 +17,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
           <Link href="/admin" className="link-draw">Products</Link>
           <Link href="/admin/products/new" className="link-draw">+ New piece</Link>
           <Link href="/admin/drop" className="link-draw">Drop text</Link>
+          <Link href="/admin/newsletter" className="link-draw">Newsletter</Link>
           <Link href="/" target="_blank" className="link-draw text-ash">View site ↗</Link>
         </nav>
         <form action={signOut} className="flex items-center gap-3 text-[0.75rem] text-ash">

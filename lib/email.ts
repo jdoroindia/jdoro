@@ -55,7 +55,7 @@ export const emails = {
   cutting: (o: Order) =>
     send(o.email, `Order #${o.number} is being made`, wrap(o, "Your pieces are on the table.", "We’ve started cutting and sewing your order.")),
   shipped: (o: Order) =>
-    send(o.email, `Order #${o.number} has shipped`, wrap(o, "It’s on its way.", o.tracking ? `Tracking number: <b>${esc(o.tracking)}</b>` : "Your parcel has left the studio.")),
+    send(o.email, `Order #${o.number} has shipped`, wrap(o, "It’s on its way.", o.tracking ? `Tracking number: <b>${esc(o.tracking)}</b> · <a href="https://shiprocket.co/tracking/${encodeURIComponent(o.tracking)}" style="color:#4a1412">Track your parcel</a>` : "Your parcel has left the studio.")),
   delivered: (o: Order) =>
     send(o.email, `Order #${o.number} delivered`, wrap(o, "Delivered. Wear it often.", "We hope it fits just right. If anything isn’t, reply and we’ll help.")),
   // Heads-up to the studio for every new paid order.
