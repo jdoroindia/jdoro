@@ -143,14 +143,14 @@ export function FittingRoom() {
             </button>
           ))}
         </div>
-        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-2">
+        <div className="grid grid-cols-3 items-start gap-3 sm:grid-cols-4 lg:grid-cols-2">
           {list.map((p) => {
             const on = ready && has(p.slug);
             const img = imageFor(p, p.colours[0].name);
             const soldOut = p.left < 1;
             return (
-              <button key={p.slug} type="button" disabled={soldOut && !on} onClick={() => toggle(p.slug)} aria-pressed={on} className="text-left disabled:opacity-40">
-                <span className={cx("relative block aspect-[3/4] overflow-hidden border bg-white", on ? "border-bur outline outline-[1.5px] outline-bur" : "border-line")}>
+              <button key={p.slug} type="button" disabled={soldOut && !on} onClick={() => toggle(p.slug)} aria-pressed={on} className="flex flex-col justify-start self-start text-left disabled:opacity-40">
+                <span className={cx("relative block aspect-[3/4] overflow-hidden border bg-white", on ? "border-bur ring-1 ring-inset ring-bur" : "border-line")}>
                   <ProductImage src={img.src} alt={p.name} fill={img.filled} sizes="140px" />
                   <span className={cx("absolute right-2 top-2 grid size-5 place-items-center rounded-full text-[0.625rem]", on ? "bg-bur text-shell" : "border border-mist bg-white")}>
                     {on ? "✓" : ""}
@@ -267,7 +267,7 @@ export function FittingRoom() {
                 const img = imageFor(p, p.colours[0].name);
                 return (
                   <div key={p.slug} className="relative">
-                    <button type="button" onClick={() => setSuggestSize(suggestSize === p.slug ? null : p.slug)} className="block w-full text-left">
+                    <button type="button" onClick={() => setSuggestSize(suggestSize === p.slug ? null : p.slug)} className="flex w-full flex-col justify-start text-left">
                       <span className="relative block aspect-[3/4] overflow-hidden border border-line bg-white">
                         <ProductImage src={img.src} alt={p.name} fill={img.filled} sizes="160px" />
                       </span>
