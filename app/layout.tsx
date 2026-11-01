@@ -6,6 +6,8 @@ import { FittingRoomProvider } from "@/lib/fitting-room";
 import { CatalogProvider } from "@/lib/catalog-context";
 import { getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
+import { Analytics } from "@vercel/analytics/next";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import "./globals.css";
 
 /* Fraunces: a warm, soft serif for headings; reads gender-neutral and holds up at small sizes.
@@ -73,8 +75,27 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
             {children}
           </main>
           <SiteFooter />
+          <WhatsAppButton />
         </FittingRoomProvider>
         </CatalogProvider>
+        <Analytics />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "ClothingStore",
+              name: site.plainName,
+              url: site.url,
+              logo: `${site.url}/icon.png`,
+              email: site.contact.email,
+              telephone: site.contact.phone,
+              founder: site.founder,
+              address: { "@type": "PostalAddress", addressCountry: "IN" },
+              sameAs: site.social.map((s) => s.href),
+            }),
+          }}
+        />
       </body>
     </html>
   );

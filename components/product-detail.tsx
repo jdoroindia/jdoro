@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Newsletter } from "@/components/newsletter";
 import { ProductImage } from "@/components/product-card";
 import { useFittingRoom } from "@/lib/fitting-room";
 import { formatPrice, type Product } from "@/lib/products";
@@ -96,9 +97,11 @@ export function ProductDetail({ product }: { product: Product }) {
       {views.length > 1 && <p className="-mt-7 text-center text-[0.6875rem] text-ash sm:hidden">Swipe for back view →</p>}
 
       <div className="lg:sticky lg:top-32 lg:self-start">
-        {product.left <= 4 && (
+        {product.left < 1 ? (
+          <span className="cap inline-block bg-mist px-2.5 py-1.5 text-[0.5625rem] text-white">Sold out</span>
+        ) : product.left <= 4 ? (
           <span className="cap inline-block bg-ink px-2.5 py-1.5 text-[0.5625rem] text-shell">Only {product.left} left in this run</span>
-        )}
+        ) : null}
         <h1 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] font-normal leading-tight text-bur">{product.name}</h1>
         <p className="mt-2 text-lg font-medium">{formatPrice(product.price)}</p>
         <p className="mt-6 max-w-md text-[0.9375rem] leading-relaxed text-graphite">{product.description}</p>
@@ -232,9 +235,17 @@ export function ProductDetail({ product }: { product: Product }) {
               {error}
             </p>
           )}
-          <button type="button" onClick={addToLook} className="btn border-bur bg-bur text-shell hover:border-ink hover:bg-ink">
-            {added ? "✓ Added to bag" : "Add to bag"}
-          </button>
+          {product.left < 1 ? (
+            <div className="border border-line bg-white p-4">
+              <p className="text-[0.9375rem]">This piece has sold out with the last of its fabric.</p>
+              <p className="mb-3 mt-1 text-[0.8125rem] text-ash">Sign up and we’ll tell you if it comes back.</p>
+              <Newsletter source={`restock-${product.slug}`.slice(0, 40)} />
+            </div>
+          ) : (
+            <button type="button" onClick={addToLook} className="btn border-bur bg-bur text-shell hover:border-ink hover:bg-ink">
+              {added ? "✓ Added to bag" : "Add to bag"}
+            </button>
+          )}
         </div>
 
         <dialog

@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/product-card";
 import { ProductDetail } from "@/components/product-detail";
 import { getProduct, getProducts } from "@/lib/catalog";
+import { site } from "@/lib/site";
 
 export async function generateStaticParams() {
   return (await getProducts()).map((p) => ({ slug: p.slug }));
@@ -36,6 +37,31 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </Link>{" "}
         / <span className="text-ink">{product.name}</span>
       </nav>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: product.name,
+            description: product.description,
+            image: product.colours.flatMap((c) => [c.image, c.back].filter(Boolean)).map((u) => (u!.startsWith("http") ? u : `${site.url}${u}`)),
+            brand: { "@type": "Brand", name: site.plainName },
+            material: product.fabric,
+            sku: product.slug,
+            offers: {
+              "@type": "Offer",
+              url: `${site.url}/shop/${product.slug}`,
+              priceCurrency: "INR",
+              price: product.price,
+              availability: product.left > 0 ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+              itemCondition: "https://schema.org/NewCondition",
+              shippingDetails: { "@type": "OfferShippingDetails", shippingRate: { "@type": "MonetaryAmount", value: 0, currency: "INR" }, shippingDestination: { "@type": "DefinedRegion", addressCountry: "IN" } },
+              hasMerchantReturnPolicy: { "@type": "MerchantReturnPolicy", applicableCountry: "IN", returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow", merchantReturnDays: 7 },
+            },
+          }),
+        }}
+      />
       <ProductDetail product={product} />
       <section className="mx-auto max-w-[88rem] border-t border-line px-5 py-16 md:px-10">
         <h2 className="font-display text-3xl font-normal">You’ll also look good in</h2>

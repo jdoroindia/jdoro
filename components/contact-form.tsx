@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Select } from "@/components/select";
+import { sendContact } from "@/app/contact/actions";
 import { buttonStyles } from "@/components/ui";
 import { cx } from "@/lib/cx";
 import { buttons, errors, forms } from "@/lib/microcopy";
@@ -23,6 +24,7 @@ export function ContactForm() {
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [invalid, setInvalid] = useState<string[]>([]);
   const [subject, setSubject] = useState(subjects[0]);
+  const [sendError, setSendError] = useState<string | null>(null);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -38,7 +40,19 @@ export function ContactForm() {
     if (missing.length) return;
 
     setState("sending");
-    // TODO: post to a route handler that forwards to the atelier inbox.
+    const res = await sendContact({
+      name: String(data.get("name") ?? ""),
+      email: String(data.get("email") ?? ""),
+      subject: String(data.get("subject") ?? ""),
+      message: String(data.get("message") ?? ""),
+      measurements: String(data.get("measurements") ?? ""),
+      company: String(data.get("company") ?? ""),
+    });
+    if (!res.ok) {
+      setState("idle");
+      setSendError(res.error ?? "Couldn’t send. Please email us directly.");
+      return;
+    }
     setState("done");
   }
 
@@ -149,6 +163,10 @@ export function ContactForm() {
         </div>
       </div>
 
+      <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
+      {sendError && (
+        <p role="alert" className="mt-8 border border-error bg-error-soft px-4 py-3 text-[0.875rem] text-error-ink">{sendError}</p>
+      )}
       <div className="mt-11">
         <button
           type="submit"
