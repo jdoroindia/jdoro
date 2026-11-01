@@ -34,7 +34,7 @@ export function ProductImage({
   );
 }
 
-export function ProductCard({ product, priority, showUnisex = true }: { product: Product; priority?: boolean; showUnisex?: boolean }) {
+export function ProductCard({ product, priority, showUnisex = false }: { product: Product; priority?: boolean; showUnisex?: boolean }) {
   const { has, toggle, ready } = useFittingRoom();
   const colour = product.colours[0] ?? { name: "", hex: "#eee", image: "/video/hero-poster.jpg" };
   const inLook = ready && has(product.slug);
