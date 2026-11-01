@@ -1,7 +1,7 @@
 "use server";
 
 import { createHmac, timingSafeEqual } from "node:crypto";
-import { revalidatePath } from "next/cache";
+import { markPaid } from "@/lib/orders";
 import { fromRow } from "@/lib/products";
 import { serviceClient } from "@/lib/supabase/service";
 import type { LookItem } from "@/lib/fitting-room";
@@ -107,19 +107,6 @@ export async function confirmPayment(p: { orderId: string; razorpayOrderId: stri
   const b = Buffer.from(p.signature);
   if (a.length !== b.length || !timingSafeEqual(a, b)) return { ok: false };
 
-  const db = serviceClient();
-  const { data: order } = await db
-    .from("orders")
-    .update({ status: "paid", razorpay_payment_id: p.paymentId, paid_at: new Date().toISOString() })
-    .eq("id", p.orderId)
-    .eq("razorpay_order_id", p.razorpayOrderId)
-    .eq("status", "pending")
-    .select("items")
-    .maybeSingle();
-  // Only the first successful confirmation takes stock.
-  if (order) {
-    for (const l of order.items as { slug: string; qty: number }[]) await db.rpc("take_stock", { p_slug: l.slug, p_qty: l.qty });
-    revalidatePath("/", "layout");
-  }
+  await markPaid(p.razorpayOrderId, p.paymentId);
   return { ok: true };
 }

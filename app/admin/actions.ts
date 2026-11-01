@@ -5,6 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { categoryIds, fits, type Colour } from "@/lib/products";
 import { currentAdmin, serverClient } from "@/lib/supabase/server";
+import { emails } from "@/lib/email";
 
 const allowedEmails = () =>
   (process.env.ADMIN_EMAILS ?? "")
@@ -150,8 +151,11 @@ export async function updateOrder(id: string, patch: { status?: string; tracking
     row.status = patch.status;
   }
   if (patch.tracking !== undefined) row.tracking = patch.tracking.trim() || null;
-  const { error } = await supabase.from("orders").update(row).eq("id", id).neq("status", "pending");
+  const { data: before } = await supabase.from("orders").select("status").eq("id", id).single();
+  const { data: order, error } = await supabase.from("orders").update(row).eq("id", id).neq("status", "pending").select("*").single();
   if (error) throw new Error(error.message);
+  // Email the customer when the status actually moves forward.
+  if (patch.status && before?.status !== patch.status && ["cutting", "shipped", "delivered"].includes(patch.status)) await emails[patch.status as "cutting" | "shipped" | "delivered"](order).catch(() => {});
   revalidatePath("/admin/orders");
   revalidatePath(`/order/${id}`);
 }

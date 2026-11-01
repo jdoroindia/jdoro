@@ -38,12 +38,14 @@ export const nav = {
   right: [
     { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
+    { label: "Account", href: "/account" },
   ],
 };
 
 export const footerNav = [
   { label: "Shop", href: "/shop" },
   { label: "Fitting Room", href: "/fitting-room" },
+  { label: "Your orders", href: "/account" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
   { label: "Shipping & Returns", href: "/shipping-returns" },
