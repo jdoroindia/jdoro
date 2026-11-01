@@ -7,7 +7,7 @@ import { CatalogProvider } from "@/lib/catalog-context";
 import { getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
 import { Analytics } from "@vercel/analytics/next";
-import { WhatsAppButton } from "@/components/whatsapp-button";
+import { WishlistProvider } from "@/lib/wishlist";
 import "./globals.css";
 
 /* Fraunces: a warm, soft serif for headings; reads gender-neutral and holds up at small sizes.
@@ -70,12 +70,13 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         </a>
         <CatalogProvider products={products}>
         <FittingRoomProvider>
+        <WishlistProvider>
           <SiteHeader />
           <main id="main" className="flex-1">
             {children}
           </main>
           <SiteFooter />
-          <WhatsAppButton />
+        </WishlistProvider>
         </FittingRoomProvider>
         </CatalogProvider>
         <Analytics />

@@ -5,11 +5,14 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Wordmark } from "@/components/wordmark";
 import { useFittingRoom } from "@/lib/fitting-room";
+import { useWishlist } from "@/lib/wishlist";
 import { nav } from "@/lib/site";
 import { cx } from "@/lib/cx";
 
 export function SiteHeader() {
   const { items, ready } = useFittingRoom();
+  const wish = useWishlist();
+  const saved = wish.ready ? wish.slugs.length : 0;
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const count = ready ? items.length : 0;
@@ -48,7 +51,14 @@ export function SiteHeader() {
           <Wordmark size="lg" priority className="h-7 w-auto md:h-9" />
         </Link>
 
-        <nav className="flex min-w-0 items-center justify-end gap-8" aria-label="Site">
+        <nav className="flex min-w-0 items-center justify-end gap-3 md:gap-8" aria-label="Site">
+          <Link href="/search" aria-label="Search" className="-m-1 grid min-h-11 min-w-9 place-items-center hover:text-bur">
+            <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.3-2.2L21 21" /></svg>
+          </Link>
+          <Link href="/wishlist" aria-label={`Wishlist (${saved})`} className="relative -m-1 grid min-h-11 min-w-9 place-items-center hover:text-bur">
+            <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M12 20.5s-7.5-4.6-7.5-10A4.3 4.3 0 0 1 12 7.6a4.3 4.3 0 0 1 7.5 2.9c0 5.4-7.5 10-7.5 10Z" /></svg>
+            {saved > 0 && <span className="absolute right-0 top-1.5 grid size-4 place-items-center rounded-full bg-bur text-[0.5625rem] text-shell">{saved}</span>}
+          </Link>
           {nav.right.map((l) => (
             <Link key={l.href} href={l.href} className={cx(linkCls(l.href), "max-md:hidden")}>
               {l.label}
@@ -66,7 +76,7 @@ export function SiteHeader() {
 
       {open && (
         <nav id="mobile-nav" className="border-t border-line bg-bone px-5 pb-8 pt-4 md:hidden" aria-label="Mobile">
-          {[...nav.left, ...nav.right, { label: "Bag", href: "/fitting-room" }].map((l) => (
+          {[...nav.left, ...nav.right, { label: "Wishlist", href: "/wishlist" }, { label: "Search", href: "/search" }, { label: "Bag", href: "/fitting-room" }].map((l) => (
             <Link
               key={l.href}
               href={l.href}

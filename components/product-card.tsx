@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+import { SaveButton } from "@/components/save-button";
 import { useFittingRoom } from "@/lib/fitting-room";
 import { formatPrice, type Product } from "@/lib/products";
 import { cx } from "@/lib/cx";
@@ -64,6 +65,7 @@ export function ProductCard({ product, priority, showUnisex = false }: { product
             />
           )}
         </Link>
+        <SaveButton slug={product.slug} name={product.name} className="absolute right-1 top-1 z-10 grid size-11 place-items-center rounded-full" />
         {soldOut ? (
           <span className="cap absolute left-3 top-3 bg-mist px-2.5 py-1.5 text-[0.5625rem] text-white">Sold out</span>
         ) : product.left <= 4 ? (

@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Newsletter } from "@/components/newsletter";
+import { SaveButton } from "@/components/save-button";
 import { ProductImage } from "@/components/product-card";
 import { useFittingRoom } from "@/lib/fitting-room";
 import { formatPrice, type Product } from "@/lib/products";
@@ -103,7 +104,10 @@ export function ProductDetail({ product }: { product: Product }) {
           <span className="cap inline-block bg-ink px-2.5 py-1.5 text-[0.5625rem] text-shell">Only {product.left} left in this run</span>
         ) : null}
         <h1 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] font-normal leading-tight text-bur">{product.name}</h1>
-        <p className="mt-2 text-lg font-medium">{formatPrice(product.price)}</p>
+        <div className="mt-2 flex items-center justify-between gap-4">
+          <p className="text-lg font-medium">{formatPrice(product.price)}</p>
+          <SaveButton slug={product.slug} name={product.name} withLabel className="-my-2 min-h-11" />
+        </div>
         <p className="mt-6 max-w-md text-[0.9375rem] leading-relaxed text-graphite">{product.description}</p>
 
         <div className="mt-8">
