@@ -71,7 +71,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           onClick={() => toggle(product.slug)}
           aria-pressed={inLook}
           className={cx(
-            "cap absolute inset-x-3 bottom-3 border py-3 text-[0.625rem] transition md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:focus-visible:opacity-100",
+            "cap absolute inset-x-2 bottom-2 min-h-11 border text-[0.5625rem] transition sm:inset-x-3 sm:bottom-3 sm:text-[0.625rem] md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:focus-visible:opacity-100",
             inLook ? "border-bur bg-bur text-shell md:translate-y-0 md:opacity-100" : "border-line bg-bone text-bur hover:bg-shell",
           )}
         >
@@ -83,7 +83,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           <span>{product.name}</span>
           <span>{formatPrice(product.price)}</span>
         </div>
-        <p className="mt-1 flex items-center gap-2 text-[0.6875rem] text-ash">
+        <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.6875rem] text-ash">
           {product.unisex && <span className="cap border border-olive/60 px-1.5 py-0.5 text-[0.5rem] text-olive">Unisex</span>}
           <span>{product.detail} · {product.fit} fit</span>
         </p>

@@ -80,9 +80,9 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <section className="mx-auto grid max-w-[88rem] gap-10 px-5 py-8 md:px-10 lg:grid-cols-[1.3fr_1fr] lg:gap-16 lg:py-12">
-      <div className={cx("grid gap-3", views.length > 1 && "sm:grid-cols-2")}>
+      <div className={cx("no-scrollbar -mx-5 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 sm:mx-0 sm:grid sm:overflow-visible sm:px-0", views.length > 1 && "sm:grid-cols-2")}>
         {views.map((src, i) => (
-          <div key={src} className="relative aspect-[3/4] overflow-hidden border border-line bg-white">
+          <div key={src} className={cx("relative aspect-[3/4] shrink-0 snap-center overflow-hidden border border-line bg-white sm:w-auto", views.length > 1 ? "w-[82%]" : "w-full")}>
             <ProductImage
               src={src}
               alt={`${product.name} in ${colour.name}, ${i === 0 ? "front" : "back"}`}
@@ -93,6 +93,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         ))}
       </div>
+      {views.length > 1 && <p className="-mt-7 text-center text-[0.6875rem] text-ash sm:hidden">Swipe for back view →</p>}
 
       <div className="lg:sticky lg:top-32 lg:self-start">
         {product.left <= 4 && (
@@ -115,7 +116,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 aria-pressed={c.name === colour.name}
                 onClick={() => setColourName(c.name)}
                 className={cx(
-                  "size-7 rounded-full border border-line outline-offset-[3px]",
+                  "size-10 rounded-full border border-line outline-offset-[3px] sm:size-8",
                   c.name === colour.name && "outline outline-1 outline-ink",
                 )}
                 style={{ background: c.hex }}
@@ -130,7 +131,7 @@ export function ProductDetail({ product }: { product: Product }) {
             <button
               type="button"
               onClick={() => chartRef.current?.showModal()}
-              className="cap text-ink underline decoration-line underline-offset-4 hover:text-bur hover:decoration-bur"
+              className="cap -my-3 py-3 text-ink underline decoration-line underline-offset-4 hover:text-bur hover:decoration-bur"
             >
               Size chart
             </button>
@@ -146,7 +147,7 @@ export function ProductDetail({ product }: { product: Product }) {
                   setAdded(false);
                 }}
                 className={cx(
-                  "border py-3 text-[0.8125rem] transition-colors",
+                  "min-h-12 border text-[0.875rem] transition-colors",
                   size === s ? "border-ink bg-ink text-shell" : "border-line hover:border-ink",
                 )}
               >

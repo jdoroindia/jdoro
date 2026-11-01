@@ -15,14 +15,17 @@ export function SiteHeader() {
   const count = ready ? items.length : 0;
 
   const linkCls = (href: string) =>
-    cx("cap link-draw py-2 transition-colors hover:text-bur", pathname === href && "text-bur");
+    cx("cap link-draw inline-flex min-h-11 items-center py-2 transition-colors hover:text-bur", pathname === href && "text-bur");
 
   return (
     <header className="sticky top-0 z-50 border-b border-line bg-bone/90 backdrop-blur-md">
       <div className="announce bg-bur text-center text-shell">
-        <p className="cap py-2 text-[0.625rem]">Drop 01 is live · Made to order in India · Style it in the Fitting Room</p>
+        <p className="cap truncate px-3 py-2 text-[0.625rem]">
+          Drop 01 is live<span className="hidden sm:inline"> · Made to order in India · Style it in the Fitting Room</span>
+          <span className="sm:hidden"> · Made to order</span>
+        </p>
       </div>
-      <div className="mx-auto grid max-w-[88rem] grid-cols-[1fr_auto_1fr] items-center px-5 py-4 md:px-10">
+      <div className="mx-auto grid max-w-[88rem] grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center px-5 py-4 md:px-10">
         <nav className="hidden items-center gap-8 md:flex" aria-label="Shop">
           {nav.left.map((l) => (
             <Link key={l.href} href={l.href} className={linkCls(l.href)}>
@@ -33,7 +36,7 @@ export function SiteHeader() {
         </nav>
         <button
           type="button"
-          className="cap justify-self-start py-2 md:hidden"
+          className="cap -ml-2 min-h-11 justify-self-start px-2 md:hidden"
           aria-expanded={open}
           aria-controls="mobile-nav"
           onClick={() => setOpen((v) => !v)}
@@ -45,19 +48,19 @@ export function SiteHeader() {
           <Wordmark size="lg" priority className="h-7 w-auto md:h-9" />
         </Link>
 
-        <nav className="flex items-center justify-end gap-8" aria-label="Site">
+        <nav className="flex min-w-0 items-center justify-end gap-8" aria-label="Site">
           {nav.right.map((l) => (
-            <Link key={l.href} href={l.href} className={cx(linkCls(l.href), "hidden md:inline-block")}>
+            <Link key={l.href} href={l.href} className={cx(linkCls(l.href), "max-md:hidden")}>
               {l.label}
             </Link>
           ))}
           <Link
             href="/fitting-room"
-            className={cx(linkCls("/fitting-room"), "whitespace-nowrap")}
+            className={cx(linkCls("/fitting-room"), "gap-1 whitespace-nowrap")}
             onClick={() => setOpen(false)}
           >
-            <span className="hidden sm:inline">Fitting Room </span>
-            <span className="sm:hidden">Look </span>({count})
+            <span className="hidden sm:inline">Fitting Room</span>
+            <span className="sm:hidden">Look</span><span>({count})</span>
           </Link>
         </nav>
       </div>
@@ -69,7 +72,7 @@ export function SiteHeader() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className="block border-b border-line py-4 font-display text-2xl text-bur"
+              className="flex min-h-14 items-center border-b border-line font-display text-2xl text-bur"
             >
               {l.label}
             </Link>

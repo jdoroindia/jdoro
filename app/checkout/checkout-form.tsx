@@ -19,7 +19,7 @@ declare global {
 }
 
 const empty: Customer = { name: "", email: "", phone: "", line1: "", line2: "", city: "", state: "", pincode: "" };
-const input = "mt-1.5 block w-full border-b border-line bg-transparent py-2.5 text-[0.9375rem] outline-none focus:border-bur";
+const input = "mt-1.5 block min-h-11 w-full border-b border-line bg-transparent py-2.5 text-[0.9375rem] outline-none focus:border-bur";
 
 export function CheckoutForm() {
   const { items, ready, total, clear } = useFittingRoom();
@@ -69,7 +69,7 @@ export function CheckoutForm() {
     );
 
   return (
-    <section className="mx-auto grid max-w-[72rem] gap-12 px-5 py-12 md:px-10 lg:grid-cols-[1fr_24rem]">
+    <section className="mx-auto grid max-w-[72rem] gap-10 px-5 py-10 md:px-10 md:py-12 lg:grid-cols-[1fr_24rem]">
       <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="afterInteractive" />
       <form
         onSubmit={(e) => {
@@ -110,7 +110,7 @@ export function CheckoutForm() {
         </p>
       </form>
 
-      <aside className="h-fit border border-line bg-white p-6 lg:sticky lg:top-32">
+      <aside className="order-first h-fit border border-line bg-white p-5 md:p-6 lg:order-none lg:sticky lg:top-32">
         <h2 className="cap">Your order</h2>
         <ul className="mt-3">
           {look.map(({ i, p }) => {

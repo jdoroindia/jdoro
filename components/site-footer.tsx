@@ -19,7 +19,7 @@ export function SiteFooter() {
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-3">
           {footerNav.map((l) => (
-            <Link key={l.href} href={l.href} className="cap link-draw w-fit text-shell/80 hover:text-shell">
+            <Link key={l.href} href={l.href} className="cap link-draw w-fit py-1.5 text-shell/80 hover:text-shell">
               {l.label}
             </Link>
           ))}

@@ -31,7 +31,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   return (
     <>
       <nav className="cap mx-auto max-w-[88rem] px-5 pt-8 text-[0.625rem] text-ash md:px-10" aria-label="Breadcrumb">
-        <Link href="/shop" className="link-draw">
+        <Link href="/shop" className="link-draw inline-block py-2">
           Shop
         </Link>{" "}
         / <span className="text-ink">{product.name}</span>

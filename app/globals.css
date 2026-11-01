@@ -476,3 +476,20 @@
 @utility animate-marquee {
   animation: marquee 38s linear infinite;
 }
+
+/* Phones: 16px inputs stop iOS from zooming in on focus. */
+@media (max-width: 767px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="color"]),
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Swipeable photo strip on phones */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

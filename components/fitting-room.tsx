@@ -53,14 +53,14 @@ export function FittingRoom() {
       {/* Picker */}
       <aside className="order-2 border-line p-5 md:p-7 lg:order-1 lg:border-r">
         <h2 className="cap">Add to your look</h2>
-        <div className="mb-5 mt-4 flex gap-4 text-[0.75rem]" role="tablist">
+        <div className="no-scrollbar -mx-5 mb-4 mt-2 flex gap-5 overflow-x-auto px-5 text-[0.875rem] md:mx-0 md:px-0 md:text-[0.75rem]" role="tablist">
           {categories.map((c) => (
             <button
               key={c.id}
               role="tab"
               aria-selected={cat === c.id}
               onClick={() => setCat(c.id)}
-              className={cx("pb-1", cat === c.id ? "border-b border-ink text-ink" : "text-ash hover:text-ink")}
+              className={cx("min-h-11 shrink-0 pb-1", cat === c.id ? "border-b border-ink text-ink" : "text-ash hover:text-ink")}
             >
               {c.label}
             </button>
@@ -92,7 +92,7 @@ export function FittingRoom() {
 
       {/* Styling board */}
       <section
-        className="relative order-1 min-h-[30rem] overflow-hidden px-5 pb-24 pt-16 md:min-h-[38rem] lg:order-2"
+        className={cx("relative order-1 overflow-hidden px-5 pt-14 md:min-h-[38rem] md:pb-24 lg:order-2", look.length ? "min-h-[26rem] pb-20" : "pb-8")}
         style={{ background: "radial-gradient(ellipse at 50% 40%, #F6F0E9, #EDE3D9 75%)" }}
         aria-label="Your look"
       >
@@ -102,13 +102,13 @@ export function FittingRoom() {
         </div>
 
         {ready && look.length === 0 && (
-          <div className="flex h-full min-h-[22rem] flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-center justify-center py-6 text-center md:h-full md:min-h-[22rem]">
             <p className="font-display text-3xl text-bur md:text-4xl">Your rail is empty.</p>
             <p className="mt-3 max-w-xs text-[0.875rem] text-graphite">Tap any piece to hang it here, then mix and swap until the look feels right.</p>
           </div>
         )}
 
-        <div className="relative mx-auto h-full min-h-[24rem] max-w-2xl md:min-h-[32rem]">
+        <div className={cx("relative mx-auto h-full max-w-2xl md:min-h-[32rem]", look.length ? "min-h-[20rem]" : "hidden md:block")}>
           {look.slice(0, 4).map(({ item, product }, i) => {
             const slot = slots[i];
             const img = imageFor(product, item.colour);
@@ -146,7 +146,7 @@ export function FittingRoom() {
                 aria-label={c.name}
                 aria-pressed={c.name === activeEntry.item.colour}
                 onClick={() => update(activeEntry.item.slug, { colour: c.name })}
-                className={cx("size-5 rounded-full outline-offset-[3px]", c.name === activeEntry.item.colour && "outline outline-1 outline-ink")}
+                className={cx("size-8 rounded-full outline-offset-[3px] md:size-5", c.name === activeEntry.item.colour && "outline outline-1 outline-ink")}
                 style={{ background: c.hex }}
               />
             ))}
@@ -188,7 +188,7 @@ export function FittingRoom() {
                   {item.size === "Custom" && item.measurements && (
                     <p className="mt-1 text-[0.625rem] leading-snug text-bur">{item.measurements}</p>
                   )}
-                  <button type="button" onClick={() => remove(item.slug)} className="mt-1 text-[0.6875rem] text-ash underline-offset-2 hover:text-berry hover:underline">
+                  <button type="button" onClick={() => remove(item.slug)} className="-my-1 py-2 text-[0.75rem] text-ash underline underline-offset-2 hover:text-berry">
                     Remove
                   </button>
                 </div>
@@ -236,6 +236,16 @@ export function FittingRoom() {
           </>
         )}
       </aside>
+      {look.length > 0 && (
+        <div className="sticky bottom-0 z-30 order-4 flex items-center justify-between gap-4 border-t border-line bg-bone/95 px-5 py-3 backdrop-blur lg:hidden">
+          <span className="text-[0.8125rem]">
+            {look.length} {look.length === 1 ? "piece" : "pieces"} · <b className="font-medium">{formatPrice(total)}</b>
+          </span>
+          <Link href="/checkout" className="btn min-h-11 border-ink bg-ink px-5 text-shell">
+            Checkout
+          </Link>
+        </div>
+      )}
     </div>
   );
 }
