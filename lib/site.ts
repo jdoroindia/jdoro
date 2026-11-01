@@ -10,7 +10,7 @@ export const site = {
   jurisdiction: "India",
   signature: "Made slow. Worn often.",
   summary:
-    "JD’ORO is a clothing label by Jahnvi Deshlahra. Small drops, made to order, cut from rare-run fabrics. Style each piece in the Fitting Room before you buy.",
+    "JD’ORO is a clothing label by Jahnvi Deshlahra. Small drops, made to order, cut from rare-run fabrics. See how pieces work together in your bag before you buy.",
   founder: "Jahnvi Deshlahra",
   contact: {
     email: "hello@jdoro.in",
@@ -44,7 +44,7 @@ export const nav = {
 
 export const footerNav = [
   { label: "Shop", href: "/shop" },
-  { label: "Fitting Room", href: "/fitting-room" },
+  { label: "Bag", href: "/fitting-room" },
   { label: "Your orders", href: "/account" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

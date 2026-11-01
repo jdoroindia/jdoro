@@ -30,7 +30,7 @@ function whatsappLink(items: LookItem[], total: number, findProduct: (s: string)
     const size = i.size === "Custom" ? `made to measure: ${i.measurements ?? "measurements to confirm"}` : i.size;
     return `• ${p.name} (${i.colour}, ${size}) ${formatPrice(p.price)}`;
   });
-  const text = `Hi JD’ORO, I’d like to order this look:\n${lines.join("\n")}\nTotal: ${formatPrice(total)}`;
+  const text = `Hi JD’ORO, I’d like to order:\n${lines.join("\n")}\nTotal: ${formatPrice(total)}`;
   return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(text)}`;
 }
 
@@ -52,7 +52,7 @@ export function FittingRoom() {
     <div className="grid border-b border-line lg:min-h-[calc(100svh-6.5rem)] lg:grid-cols-[18rem_1fr_21rem] xl:grid-cols-[20rem_1fr_23rem]">
       {/* Picker */}
       <aside className="order-2 border-line p-5 md:p-7 lg:order-1 lg:border-r">
-        <h2 className="cap">Add to your look</h2>
+        <h2 className="cap">Add more pieces</h2>
         <div className="no-scrollbar -mx-5 mb-4 mt-2 flex gap-5 overflow-x-auto px-5 text-[0.875rem] md:mx-0 md:px-0 md:text-[0.75rem]" role="tablist">
           {categories.map((c) => (
             <button
@@ -94,17 +94,17 @@ export function FittingRoom() {
       <section
         className={cx("relative order-1 overflow-hidden px-5 pt-14 md:min-h-[38rem] md:pb-24 lg:order-2", look.length ? "min-h-[26rem] pb-20" : "pb-8")}
         style={{ background: "radial-gradient(ellipse at 50% 40%, #F6F0E9, #EDE3D9 75%)" }}
-        aria-label="Your look"
+        aria-label="How your pieces look together"
       >
         <div className="absolute inset-x-5 top-5 flex justify-between md:inset-x-7">
-          <span className="cap">Your look</span>
-          <span className="cap hidden text-ash sm:block">Outfit breakdown · model view coming soon</span>
+          <span className="cap">How it goes together</span>
+          <span className="cap hidden text-ash sm:block">Tap a piece to change its colour</span>
         </div>
 
         {ready && look.length === 0 && (
           <div className="flex flex-col items-center justify-center py-6 text-center md:h-full md:min-h-[22rem]">
-            <p className="font-display text-3xl text-bur md:text-4xl">Your rail is empty.</p>
-            <p className="mt-3 max-w-xs text-[0.875rem] text-graphite">Tap any piece to hang it here, then mix and swap until the look feels right.</p>
+            <p className="font-display text-3xl text-bur md:text-4xl">Your bag is empty.</p>
+            <p className="mt-3 max-w-xs text-[0.875rem] text-graphite">Add pieces from the shop, or pick some below. You’ll see them together here before you pay.</p>
           </div>
         )}
 
@@ -132,7 +132,7 @@ export function FittingRoom() {
             );
           })}
           {look.length > 4 && (
-            <p className="cap absolute bottom-0 right-0 text-ash">+{look.length - 4} more in your look</p>
+            <p className="cap absolute bottom-0 right-0 text-ash">+{look.length - 4} more in your bag</p>
           )}
         </div>
 
@@ -156,7 +156,7 @@ export function FittingRoom() {
 
       {/* Summary */}
       <aside className="order-3 border-t border-line bg-white p-5 md:p-7 lg:border-l lg:border-t-0">
-        <h2 className="cap">In your look</h2>
+        <h2 className="cap">Your bag</h2>
         {look.length === 0 && <p className="mt-4 text-[0.8125rem] text-ash">Nothing yet.</p>}
         <ul>
           {look.map(({ item, product }) => {
@@ -204,7 +204,7 @@ export function FittingRoom() {
         {look.length > 0 ? (
           <>
             <Link href="/checkout" className="btn w-full border-ink bg-ink text-shell hover:border-bur hover:bg-bur">
-              Checkout this look
+              Checkout
             </Link>
             <a href={whatsappLink(items, total, findProduct)} target="_blank" rel="noreferrer" className="mt-2 block text-center text-[0.75rem] underline underline-offset-2">
               or order on WhatsApp

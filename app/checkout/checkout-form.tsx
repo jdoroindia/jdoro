@@ -53,7 +53,7 @@ export function CheckoutForm() {
           clear();
           router.push(`/order/${res.orderId}`);
         },
-        modal: { ondismiss: () => setError("Payment was cancelled. Your look is still saved.") },
+        modal: { ondismiss: () => setError("Payment was cancelled. Your bag is still saved.") },
       });
       rz.on("payment.failed", () => setError("The payment didn’t go through. You haven’t been charged. Try again or use another method."));
       rz.open();
@@ -131,7 +131,7 @@ export function CheckoutForm() {
           <div className="flex justify-between"><dt className="text-ash">Shipping</dt><dd>Free</dd></div>
           <div className="flex justify-between font-medium"><dt>Total</dt><dd>{formatPrice(total)}</dd></div>
         </dl>
-        <Link href="/fitting-room" className="mt-4 inline-block text-[0.75rem] underline">Edit your look</Link>
+        <Link href="/fitting-room" className="mt-4 inline-block text-[0.75rem] underline">Edit your bag</Link>
       </aside>
     </section>
   );

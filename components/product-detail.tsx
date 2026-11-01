@@ -233,7 +233,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </p>
           )}
           <button type="button" onClick={addToLook} className="btn border-bur bg-bur text-shell hover:border-ink hover:bg-ink">
-            {added ? "✓ Added to Fitting Room" : "Add to Fitting Room"}
+            {added ? "✓ Added to bag" : "Add to bag"}
           </button>
         </div>
 

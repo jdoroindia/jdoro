@@ -20,7 +20,7 @@ export default async function ShopPage() {
       </p>
       <h1 className="mt-4 font-display text-[clamp(2.75rem,5vw,4.5rem)] font-normal leading-none text-bur">Shop the drop</h1>
       <p className="mt-5 max-w-lg text-[0.9375rem] leading-relaxed text-graphite">
-        Every piece is cut to order in a small run. Add pieces to the Fitting Room to see how they work together before
+        Every piece is cut to order in a small run. Add pieces to your bag to see how they work together before
         you buy.
       </p>
       <ShopGrid />

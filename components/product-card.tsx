@@ -75,7 +75,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
             inLook ? "border-bur bg-bur text-shell md:translate-y-0 md:opacity-100" : "border-line bg-bone text-bur hover:bg-shell",
           )}
         >
-          {inLook ? "✓ In your look" : "+ Try on model"}
+          {inLook ? "✓ In bag · tap to remove" : "+ Add to bag"}
         </button>
       </div>
       <Link href={`/shop/${product.slug}`} className="mt-3 block">

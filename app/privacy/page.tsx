@@ -20,7 +20,7 @@ export default function PrivacyPage() {
           <li><b>Order details:</b> name, email, mobile number, delivery address and what you bought.</li>
           <li><b>Measurements:</b> only if you order made to measure, used only to make your piece.</li>
           <li><b>Payments:</b> handled entirely by Razorpay. We never see or store your card, UPI PIN or bank details. We keep only the payment reference.</li>
-          <li><b>Your Fitting Room:</b> stored in your own browser, not on our servers.</li>
+          <li><b>Your bag:</b> stored in your own browser, not on our servers.</li>
         </ul>
       </Clause>
       <Clause title="Why we use it">

@@ -21,7 +21,7 @@ export function SiteHeader() {
     <header className="sticky top-0 z-50 border-b border-line bg-bone/90 backdrop-blur-md">
       <div className="announce bg-bur text-center text-shell">
         <p className="cap truncate px-3 py-2 text-[0.625rem]">
-          Drop 01 is live<span className="hidden sm:inline"> · Made to order in India · Style it in the Fitting Room</span>
+          Drop 01 is live<span className="hidden sm:inline"> · Made to order in India · Free shipping</span>
           <span className="sm:hidden"> · Made to order</span>
         </p>
       </div>
@@ -59,15 +59,14 @@ export function SiteHeader() {
             className={cx(linkCls("/fitting-room"), "gap-1 whitespace-nowrap")}
             onClick={() => setOpen(false)}
           >
-            <span className="hidden sm:inline">Fitting Room</span>
-            <span className="sm:hidden">Look</span><span>({count})</span>
+            <span>Bag</span><span>({count})</span>
           </Link>
         </nav>
       </div>
 
       {open && (
         <nav id="mobile-nav" className="border-t border-line bg-bone px-5 pb-8 pt-4 md:hidden" aria-label="Mobile">
-          {[...nav.left, ...nav.right, { label: "Fitting Room", href: "/fitting-room" }].map((l) => (
+          {[...nav.left, ...nav.right, { label: "Bag", href: "/fitting-room" }].map((l) => (
             <Link
               key={l.href}
               href={l.href}

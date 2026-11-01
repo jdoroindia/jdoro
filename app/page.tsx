@@ -52,7 +52,7 @@ export default async function Home() {
             <p className="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-shell/85">{drop.intro}</p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link href="/fitting-room" className="btn border-shell bg-shell text-bur hover:border-shell hover:bg-transparent hover:text-shell">
-                Style the drop
+                Shop the drop
               </Link>
               <Link href="/shop" className="btn text-shell hover:bg-shell hover:text-bur">
                 Shop all
@@ -87,7 +87,7 @@ export default async function Home() {
             <h2 className="font-display text-[clamp(2.25rem,4vw,3.25rem)] font-normal leading-tight">{drop.name}</h2>
           </div>
           <Link href="/fitting-room" className="btn border-ink bg-ink text-shell hover:bg-bur hover:border-bur">
-            Open the Fitting Room
+            View your bag
           </Link>
         </div>
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-5">
@@ -103,16 +103,16 @@ export default async function Home() {
       <section className="bg-bur text-shell">
         <div className="mx-auto grid max-w-[88rem] items-center gap-12 px-5 py-20 md:px-10 lg:grid-cols-2 lg:py-24">
           <div>
-            <p className="cap text-clay">The Fitting Room</p>
+            <p className="cap text-clay">Your bag, laid out</p>
             <h2 className="mt-4 font-display text-[clamp(2.25rem,4vw,3.5rem)] font-normal leading-[1.05]">
-              Build the look first. Pay for it after.
+              See it together before you pay.
             </h2>
             <p className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-shell/75">
-              Your bag is a styling board. Tap “Try on model” on any piece, mix tops with jackets, switch colours, swap
+              Your bag is a styling board. Tap “Add to bag” on any piece, mix tops with jackets, switch colours, swap
               what doesn’t work, then check out the whole outfit at once.
             </p>
             <Link href="/fitting-room" className="btn mt-9 border-shell text-shell hover:bg-shell hover:text-bur">
-              Start styling
+              Start shopping
             </Link>
           </div>
           <div className="relative h-[24rem] md:h-[28rem]">
