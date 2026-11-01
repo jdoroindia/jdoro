@@ -6,7 +6,8 @@ import { useState } from "react";
 import { ProductImage } from "@/components/product-card";
 import { Select } from "@/components/select";
 import { useFittingRoom, type LookItem } from "@/lib/fitting-room";
-import { categories, findProduct, formatPrice, products, stylesWith, matches, type Filter, type Product } from "@/lib/products";
+import { categories, formatPrice, stylesWith, matches, type Filter, type Product } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog-context";
 import { site } from "@/lib/site";
 import { cx } from "@/lib/cx";
 
@@ -23,7 +24,7 @@ function imageFor(p: Product, colour: string) {
   return { src: c.image, filled: Boolean(c.back), colour: c };
 }
 
-function whatsappLink(items: LookItem[], total: number) {
+function whatsappLink(items: LookItem[], total: number, findProduct: (s: string) => Product | undefined) {
   const lines = items.map((i) => {
     const p = findProduct(i.slug)!;
     const size = i.size === "Custom" ? `made to measure: ${i.measurements ?? "measurements to confirm"}` : i.size;
@@ -38,12 +39,13 @@ export function FittingRoom() {
   const [cat, setCat] = useState<Filter>("all");
   const [active, setActive] = useState<string | null>(null);
   const router = useRouter();
+  const { products, find: findProduct } = useCatalog();
 
   const list = products.filter((p) => matches(p, cat));
   const look = items.map((i) => ({ item: i, product: findProduct(i.slug)! })).filter((x) => x.product);
   const activeEntry = look.find((x) => x.item.slug === active) ?? look[look.length - 1];
   const recommended = look.length
-    ? stylesWith(look.map((x) => x.item.slug), 3)
+    ? stylesWith(products, look.map((x) => x.item.slug), 3)
     : products.filter((p) => !has(p.slug)).slice(0, 3);
 
   return (
@@ -200,7 +202,7 @@ export function FittingRoom() {
           <b className="font-medium">{formatPrice(total)}</b>
         </div>
         {look.length > 0 ? (
-          <a href={whatsappLink(items, total)} target="_blank" rel="noreferrer" className="btn w-full border-ink bg-ink text-shell hover:border-bur hover:bg-bur">
+          <a href={whatsappLink(items, total, findProduct)} target="_blank" rel="noreferrer" className="btn w-full border-ink bg-ink text-shell hover:border-bur hover:bg-bur">
             Checkout this look
           </a>
         ) : (

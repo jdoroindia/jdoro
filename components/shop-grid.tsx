@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { ProductCard } from "@/components/product-card";
-import { categories, fits, matches, products, type Filter, type Fit } from "@/lib/products";
+import { categories, fits, matches, type Filter, type Fit } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog-context";
 import { cx } from "@/lib/cx";
 
 export function ShopGrid() {
+  const { products } = useCatalog();
   const [cat, setCat] = useState<Filter>("all");
   const [fit, setFit] = useState<Fit | null>(null);
   const list = products.filter((p) => matches(p, cat) && (!fit || p.fit === fit));

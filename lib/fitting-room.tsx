@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
-import { findProduct } from "@/lib/products";
+import { useCatalog } from "@/lib/catalog-context";
 
 /** One piece in the look. Stored in localStorage so it survives reloads. */
 export type LookItem = {
@@ -31,6 +31,7 @@ const KEY = "jdoro.fitting-room.v1";
 export function FittingRoomProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<LookItem[]>([]);
   const [ready, setReady] = useState(false);
+  const { find: findProduct } = useCatalog();
 
   useEffect(() => {
     try {
@@ -42,6 +43,7 @@ export function FittingRoomProvider({ children }: { children: ReactNode }) {
       }
     } catch {}
     setReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- hydrate once
   }, []);
 
   useEffect(() => {
@@ -62,9 +64,9 @@ export function FittingRoomProvider({ children }: { children: ReactNode }) {
       if (prev.some((i) => i.slug === slug)) return prev.filter((i) => i.slug !== slug);
       const p = findProduct(slug);
       if (!p) return prev;
-      return [...prev, { slug, colour: p.colours[0].name, size: "S" }];
+      return [...prev, { slug, colour: p.colours[0]?.name ?? "", size: "S" }];
     });
-  }, []);
+  }, [findProduct]);
 
   const value = useMemo<Ctx>(() => {
     const total = items.reduce((sum, i) => sum + (findProduct(i.slug)?.price ?? 0), 0);
@@ -79,7 +81,7 @@ export function FittingRoomProvider({ children }: { children: ReactNode }) {
       total,
       clear: () => setItems([]),
     };
-  }, [items, ready, add, remove, update, toggle]);
+  }, [items, ready, add, remove, update, toggle, findProduct]);
 
   return <FittingRoomContext.Provider value={value}>{children}</FittingRoomContext.Provider>;
 }

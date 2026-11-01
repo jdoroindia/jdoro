@@ -3,30 +3,30 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/product-card";
 import { ProductDetail } from "@/components/product-detail";
-import { findProduct, products } from "@/lib/products";
+import { getProduct, getProducts } from "@/lib/catalog";
 
-export function generateStaticParams() {
-  return products.map((p) => ({ slug: p.slug }));
+export async function generateStaticParams() {
+  return (await getProducts()).map((p) => ({ slug: p.slug }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const product = findProduct(slug);
+  const product = await getProduct(slug);
   if (!product) return {};
   return {
     title: product.name,
     description: product.description,
     alternates: { canonical: `/shop/${slug}` },
-    openGraph: { images: [product.colours[0].image] },
+    openGraph: { images: product.colours[0] ? [product.colours[0].image] : [] },
   };
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const product = findProduct(slug);
+  const product = await getProduct(slug);
   if (!product) notFound();
 
-  const related = products.filter((p) => p.slug !== slug).slice(0, 4);
+  const related = (await getProducts()).filter((p) => p.slug !== slug).slice(0, 4);
 
   return (
     <>

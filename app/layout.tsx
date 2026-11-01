@@ -3,6 +3,8 @@ import { Bodoni_Moda, Jost } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FittingRoomProvider } from "@/lib/fitting-room";
+import { CatalogProvider } from "@/lib/catalog-context";
+import { getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
 import "./globals.css";
 
@@ -46,7 +48,8 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const products = await getProducts();
   return (
     <html
       lang="en"
@@ -60,6 +63,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
+        <CatalogProvider products={products}>
         <FittingRoomProvider>
           <SiteHeader />
           <main id="main" className="flex-1">
@@ -67,6 +71,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           </main>
           <SiteFooter />
         </FittingRoomProvider>
+        </CatalogProvider>
       </body>
     </html>
   );

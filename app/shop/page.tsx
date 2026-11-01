@@ -1,14 +1,18 @@
 import type { Metadata } from "next";
 import { ShopGrid } from "@/components/shop-grid";
-import { drop } from "@/lib/products";
+import { getDrop } from "@/lib/catalog";
 
-export const metadata: Metadata = {
-  title: "Shop",
-  description: `Shop Drop ${drop.number}: ${drop.name}. Small runs, made to order in rare-run fabrics.`,
-  alternates: { canonical: "/shop" },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const drop = await getDrop();
+  return {
+    title: "Shop",
+    description: `Shop Drop ${drop.number}: ${drop.name}. Small runs, made to order in rare-run fabrics.`,
+    alternates: { canonical: "/shop" },
+  };
+}
 
-export default function ShopPage() {
+export default async function ShopPage() {
+  const drop = await getDrop();
   return (
     <div className="mx-auto max-w-[88rem] px-5 py-14 md:px-10 lg:py-20">
       <p className="cap text-ash">

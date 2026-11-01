@@ -36,7 +36,7 @@ export function ProductImage({
 
 export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
   const { has, toggle, ready } = useFittingRoom();
-  const colour = product.colours[0];
+  const colour = product.colours[0] ?? { name: "", hex: "#eee", image: "/video/hero-poster.jpg" };
   const inLook = ready && has(product.slug);
   const filled = Boolean(colour.back);
 

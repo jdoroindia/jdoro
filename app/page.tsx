@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product-card";
 import { Reveal } from "@/components/reveal";
-import { drop, products } from "@/lib/products";
+import { getDrop, getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
 
 const ethos = [
@@ -13,7 +13,8 @@ const ethos = [
 
 const ticker = ["For everyone", "Easy shapes", "Buttons with a story", "Rare-run fabric", "Made to order", "Drop 01"];
 
-export default function Home() {
+export default async function Home() {
+  const [drop, products] = await Promise.all([getDrop(), getProducts()]);
   return (
     <>
       {/* Hero: full-bleed landscape drop film with the copy laid over it. The film changes every drop. */}

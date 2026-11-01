@@ -1,13 +1,10 @@
 /**
- * Product catalogue for the current drop.
- *
- * Names, prices and copy are placeholders for Jahnvi to replace. The shape
- * mirrors a Shopify product (handle, variants with size/colour options), so
- * swapping this file for a Storefront API fetch later only changes this module.
+ * Product types and pure helpers. The catalogue itself lives in Supabase
+ * (see lib/catalog.ts for server reads and lib/catalog-context.tsx for the
+ * client), and is managed by Jahnvi in /admin.
  */
 
 export type Fit = "Relaxed" | "Regular" | "Oversized";
-
 export type Category = "tops" | "dresses" | "jackets";
 
 export type Colour = {
@@ -31,190 +28,22 @@ export type Product = {
   fabric: string;
   colours: Colour[];
   sizes: string[];
-  /** Hand-picked pieces that complete the outfit (layer or contrast, never a near-duplicate). */
+  /** Hand-picked pieces that complete the outfit. */
   pairsWith: string[];
-  /** Pieces left in the run. Small drops, so this is shown on the page. */
+  /** Pieces left in the run. */
   left: number;
+  published: boolean;
+  sort: number;
 };
 
-const SIZES = ["XS", "S", "M", "L", "XL"];
+export type Drop = { number: string; name: string; line: string; intro: string };
 
-export const drop = {
-  number: "01",
-  name: "Stripes & Patchwork",
-  line: "Made slow. Worn often.",
-  intro:
-    "Easy shapes, honest fabric and buttons with a story. Pieces for anyone, styled in the Fitting Room before you buy.",
-};
-
-const catalogue: Product[] = [
-  {
-    slug: "candy-stripe-shirt",
-    fit: "Regular",
-    unisex: false,
-    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
-    name: "Candy Stripe Shirt",
-    price: 3800,
-    category: "tops",
-    detail: "Smocked waist",
-    description:
-      "A crisp candy-stripe shirt gathered at the waist with hand-run smocking, so it sits close without a single dart.",
-    fabric: "100% cotton poplin, rare run",
-    colours: [{ name: "Candy", hex: "#EDB2BF", image: "/products/p1.jpg", back: "/products/p1-back.jpg" }],
-    sizes: SIZES,
-    left: 6,
-  },
-  {
-    slug: "bubble-tie-top",
-    fit: "Relaxed",
-    unisex: false,
-    pairsWith: ["patchwork-denim-jacket","shell-button-shirt"],
-    name: "Bubble Tie Top",
-    price: 3200,
-    category: "tops",
-    detail: "Pink · also in green stripe",
-    description:
-      "A bubble-hem top that ties at the front. Wear it loose over denim or knotted high with a skirt.",
-    fabric: "Cotton seersucker, rare run",
-    colours: [
-      { name: "Pink", hex: "#F27FAE", image: "/products/p4.jpg", back: "/products/p4-back.jpg" },
-      { name: "Green stripe", hex: "#3E8A3A", image: "/products/p2.jpg", back: "/products/p2-back.jpg" },
-    ],
-    sizes: SIZES,
-    left: 8,
-  },
-  {
-    slug: "bell-sleeve-tie-top",
-    fit: "Relaxed",
-    unisex: false,
-    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
-    name: "Bell Sleeve Tie Top",
-    price: 3600,
-    category: "tops",
-    detail: "Candy stripe",
-    description: "Full bell sleeves and a soft neck tie, cut from the last metres of the candy stripe.",
-    fabric: "100% cotton poplin, rare run",
-    colours: [{ name: "Candy stripe", hex: "#EDB2BF", image: "/products/p11.jpg" }],
-    sizes: SIZES,
-    left: 4,
-  },
-  {
-    slug: "wave-seam-dress",
-    fit: "Regular",
-    unisex: false,
-    pairsWith: ["patchwork-denim-jacket","shell-button-shirt"],
-    name: "Wave Seam Dress",
-    price: 5900,
-    category: "dresses",
-    detail: "Rust",
-    description: "A column dress with a curved seam that runs across the body like a wave line.",
-    fabric: "Linen blend, rare run",
-    colours: [{ name: "Rust", hex: "#A4482B", image: "/products/p3.jpg" }],
-    sizes: SIZES,
-    left: 5,
-  },
-  {
-    slug: "patchwork-denim-jacket",
-    fit: "Oversized",
-    unisex: true,
-    pairsWith: ["bubble-tie-top","candy-stripe-shirt","wave-seam-dress","ruffle-sleeve-shirt"],
-    name: "Patchwork Denim Jacket",
-    price: 6800,
-    category: "jackets",
-    detail: "Patchwork denim",
-    description: "Pieced together from three different denims, so no two jackets carry the same patchwork.",
-    fabric: "Cotton denim, three washes",
-    colours: [{ name: "Indigo", hex: "#33476B", image: "/products/p5.jpg", back: "/products/p5-back.jpg" }],
-    sizes: SIZES,
-    left: 3,
-  },
-  {
-    slug: "button-story-shirt",
-    fit: "Regular",
-    unisex: true,
-    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
-    name: "Button Story Shirt",
-    price: 4200,
-    category: "tops",
-    detail: "Blush",
-    description: "Every button on the placket is different, collected from vintage cards and flea markets.",
-    fabric: "Cotton voile, rare run",
-    colours: [{ name: "Blush", hex: "#E9C3BE", image: "/products/p8.jpg" }],
-    sizes: SIZES,
-    left: 7,
-  },
-  {
-    slug: "shell-button-shirt",
-    fit: "Relaxed",
-    unisex: true,
-    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
-    name: "Shell Button Shirt",
-    price: 3900,
-    category: "tops",
-    detail: "Charcoal",
-    description: "A relaxed charcoal shirt finished with real shell buttons.",
-    fabric: "Cotton twill, rare run",
-    colours: [{ name: "Charcoal", hex: "#3A3637", image: "/products/p10.jpg" }],
-    sizes: SIZES,
-    left: 6,
-  },
-  {
-    slug: "wave-placket-shirt",
-    fit: "Relaxed",
-    unisex: true,
-    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
-    name: "Wave Placket Shirt",
-    price: 3600,
-    category: "tops",
-    detail: "Mint / cream",
-    description: "The wave line again, this time down the placket of a two-tone shirt.",
-    fabric: "Cotton poplin, rare run",
-    colours: [{ name: "Mint", hex: "#BFDCCB", image: "/products/p9.jpg", back: "/products/p9-back.jpg" }],
-    sizes: SIZES,
-    left: 5,
-  },
-  {
-    slug: "ruffle-sleeve-shirt",
-    fit: "Regular",
-    unisex: false,
-    pairsWith: ["pearl-loop-vest","patchwork-denim-jacket"],
-    name: "Ruffle Sleeve Shirt",
-    price: 3700,
-    category: "tops",
-    detail: "White",
-    description: "A clean white shirt with a ruffle at the cuff.",
-    fabric: "Cotton voile, rare run",
-    colours: [{ name: "White", hex: "#F3EFEA", image: "/products/p7.jpg" }],
-    sizes: SIZES,
-    left: 6,
-  },
-  {
-    slug: "pearl-loop-vest",
-    fit: "Regular",
-    unisex: true,
-    pairsWith: ["ruffle-sleeve-shirt","candy-stripe-shirt","button-story-shirt","wave-placket-shirt"],
-    name: "Pearl Loop Vest",
-    price: 3400,
-    category: "tops",
-    detail: "Closed with pearl loops",
-    description: "A cropped vest that fastens with pearl buttons through hand-made loops.",
-    fabric: "Cotton suiting, rare run",
-    colours: [{ name: "Ecru", hex: "#E6DCCB", image: "/products/p6.jpg", back: "/products/p6-back.jpg" }],
-    sizes: SIZES,
-    left: 4,
-  },
-];
-
-/** Unisex pieces lead, so the drop opens on clothes for everyone. */
-export const products: Product[] = [...catalogue].sort((a, b) => Number(b.unisex) - Number(a.unisex));
+export const fallbackDrop: Drop = { number: "01", name: "The drop", line: "Made slow. Worn often.", intro: "" };
 
 export const fits: Fit[] = ["Relaxed", "Regular", "Oversized"];
+export const categoryIds: Category[] = ["tops", "dresses", "jackets"];
 
 export type Filter = Category | "all" | "unisex";
-
-export function matches(p: Product, filter: Filter) {
-  return filter === "all" || (filter === "unisex" ? p.unisex : p.category === filter);
-}
 
 export const categories: { id: Filter; label: string }[] = [
   { id: "all", label: "All" },
@@ -224,17 +53,45 @@ export const categories: { id: Filter; label: string }[] = [
   { id: "jackets", label: "Jackets" },
 ];
 
-export function findProduct(slug: string) {
-  return products.find((p) => p.slug === slug);
+export function matches(p: Product, filter: Filter) {
+  return filter === "all" || (filter === "unisex" ? p.unisex : p.category === filter);
+}
+
+/** Database row → Product. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function fromRow(r: any): Product {
+  return {
+    slug: r.slug,
+    name: r.name,
+    price: r.price,
+    category: r.category,
+    fit: r.fit,
+    unisex: r.unisex,
+    detail: r.detail ?? "",
+    description: r.description ?? "",
+    fabric: r.fabric ?? "",
+    colours: Array.isArray(r.colours) ? r.colours : [],
+    sizes: r.sizes ?? [],
+    pairsWith: r.pairs_with ?? [],
+    left: r.stock ?? 0,
+    published: r.published ?? true,
+    sort: r.sort ?? 0,
+  };
+}
+
+/** Unisex pieces lead, then the admin's chosen order. */
+export function sortProducts(list: Product[]) {
+  return [...list].sort((a, b) => Number(b.unisex) - Number(a.unisex) || a.sort - b.sort);
 }
 
 /** Pieces that style with the given ones: curated pairs first, never a piece already chosen. */
-export function stylesWith(slugs: string[], limit = 4) {
+export function stylesWith(all: Product[], slugs: string[], limit = 4) {
   const chosen = new Set(slugs);
+  const find = (s: string) => all.find((p) => p.slug === s);
   const out: Product[] = [];
   for (const slug of slugs) {
-    for (const pair of findProduct(slug)?.pairsWith ?? []) {
-      const p = findProduct(pair);
+    for (const pair of find(slug)?.pairsWith ?? []) {
+      const p = find(pair);
       if (p && !chosen.has(p.slug) && !out.includes(p)) out.push(p);
     }
   }
