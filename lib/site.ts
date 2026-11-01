@@ -49,6 +49,7 @@ export const footerNav = [
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
   { label: "Shipping & Returns", href: "/shipping-returns" },
+  { label: "Refunds", href: "/refunds" },
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
 ];

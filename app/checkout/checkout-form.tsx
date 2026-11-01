@@ -104,7 +104,8 @@ export function CheckoutForm() {
           {pending ? "Opening payment…" : `Pay ${formatPrice(total)}`}
         </button>
         <p className="text-[0.75rem] text-ash">
-          Secure payment by Razorpay: UPI, cards, netbanking and wallets. Prefer to talk first?{" "}
+          By paying you agree to our <Link className="underline" href="/terms">terms</Link> and{" "}
+          <Link className="underline" href="/refunds">refund policy</Link>. Secure payment by Razorpay: UPI, cards, netbanking and wallets. Prefer to talk first?{" "}
           <a className="underline" href={`https://wa.me/${site.contact.whatsapp}`}>Order on WhatsApp</a>.
         </p>
       </form>

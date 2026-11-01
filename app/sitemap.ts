@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
 
-const routes = ["/", "/shop", "/fitting-room", "/about", "/contact", "/shipping-returns", "/terms", "/privacy"];
+const routes = ["/", "/shop", "/fitting-room", "/about", "/contact", "/shipping-returns", "/refunds", "/terms", "/privacy"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
