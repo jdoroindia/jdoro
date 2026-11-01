@@ -16,48 +16,50 @@ const ticker = ["Smocked waists", "Bubble hems", "Buttons with a story", "Deadst
 export default function Home() {
   return (
     <>
-      {/* Hero: copy on cream, drop film on the right. The film changes every drop. */}
-      <section className="grid border-b border-line lg:h-[calc(100svh-6.5rem)] lg:min-h-[36rem] lg:grid-cols-[1.05fr_1fr]">
-        <div className="order-2 flex flex-col justify-between gap-12 px-5 py-12 md:px-10 lg:order-1 lg:px-16 lg:py-14">
-          <p className="cap text-ash">
+      {/* Hero: full-bleed landscape drop film with the copy laid over it. The film changes every drop. */}
+      <section className="relative h-[calc(100svh-6.5rem)] min-h-[34rem] w-full overflow-hidden bg-ink">
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          poster="/video/hero-poster.jpg"
+          aria-label="Paper patterns hanging in the JD’ORO atelier"
+        >
+          <source src="/video/hero.webm" type="video/webm" />
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-r from-ink/70 via-ink/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
+
+        <div className="relative mx-auto flex h-full max-w-[88rem] flex-col justify-between px-5 py-10 md:px-10 lg:py-14">
+          <p className="cap text-shell/80">
             Drop {drop.number} · {drop.name}
           </p>
           <div>
-            <h1 className="font-display text-[clamp(3.25rem,7.4vw,6.75rem)] font-normal leading-[0.92] text-bur">
+            <h1 className="font-display text-[clamp(3.5rem,8vw,7.5rem)] font-normal leading-[0.92] text-shell">
               Sweet,
               <br />
-              <em className="font-normal">not</em> sugary.
+              <em className="font-normal text-candy">not</em> sugary.
             </h1>
-            <p className="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-graphite">{drop.intro}</p>
+            <p className="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-shell/85">{drop.intro}</p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link href="/fitting-room" className="btn border-bur bg-bur text-shell hover:bg-ink hover:border-ink">
+              <Link href="/fitting-room" className="btn border-shell bg-shell text-bur hover:border-candy hover:bg-candy">
                 Style the drop
               </Link>
-              <Link href="/shop" className="btn text-ink hover:bg-ink hover:text-shell">
+              <Link href="/shop" className="btn text-shell hover:bg-shell hover:text-bur">
                 Shop all
               </Link>
             </div>
           </div>
-          <a href="#drop" className="cap hidden text-mist lg:block">
-            Scroll ↓
-          </a>
-        </div>
-        <div className="relative order-1 aspect-[4/5] overflow-hidden bg-shell sm:aspect-video lg:order-2 lg:aspect-auto">
-          <video
-            className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            poster="/video/hero-poster.jpg"
-            aria-label="Paper patterns hanging in the JD’ORO atelier"
-          >
-            <source src="/video/hero.webm" type="video/webm" />
-            <source src="/video/hero.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-t from-bur/35 via-transparent to-transparent" />
-          <p className="cap absolute bottom-5 left-5 text-shell">From pattern to piece · Atelier film</p>
+          <div className="flex items-end justify-between">
+            <a href="#drop" className="cap text-shell/70 hover:text-shell">
+              Scroll ↓
+            </a>
+            <p className="cap hidden text-shell/70 sm:block">From pattern to piece · Atelier film</p>
+          </div>
         </div>
       </section>
 
