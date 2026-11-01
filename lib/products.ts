@@ -47,7 +47,6 @@ export type Filter = Category | "all" | "unisex";
 
 export const categories: { id: Filter; label: string }[] = [
   { id: "all", label: "All" },
-  { id: "unisex", label: "Unisex" },
   { id: "tops", label: "Tops" },
   { id: "dresses", label: "Dresses" },
   { id: "jackets", label: "Jackets" },
