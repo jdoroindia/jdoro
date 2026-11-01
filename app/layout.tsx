@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Jost } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { FittingRoomProvider } from "@/lib/fitting-room";
@@ -8,17 +8,20 @@ import { getProducts } from "@/lib/catalog";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const bodoni = Bodoni_Moda({
-  variable: "--font-bodoni",
+/* Fraunces: a warm, soft serif for headings; reads gender-neutral and holds up at small sizes.
+   Inter: built for screens, very clear for body text on phones. */
+const fraunces = Fraunces({
+  variable: "--font-serif",
   subsets: ["latin"],
-  axes: ["opsz"],
+  axes: ["opsz", "SOFT"],
   style: ["normal", "italic"],
   display: "swap",
 });
 
-const jost = Jost({
-  variable: "--font-jost",
+const inter = Inter({
+  variable: "--font-text",
   subsets: ["latin"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -54,7 +57,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
     <html
       lang="en"
       data-scroll-behavior="smooth"
-      className={`${bodoni.variable} ${jost.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-bone">
         <a

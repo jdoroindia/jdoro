@@ -51,9 +51,9 @@
   /* Display type is matched to the logotype: a high-contrast didone with
      hairline serifs. Optical size is set per type utility so the hairlines
      stay fine at large sizes and stay legible at small ones. */
-  --font-display: var(--font-bodoni), ui-serif, Georgia, "Times New Roman",
+  --font-display: var(--font-serif), ui-serif, Georgia, "Times New Roman",
     serif;
-  --font-sans: var(--font-jost), ui-sans-serif, system-ui, -apple-system,
+  --font-sans: var(--font-text), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", sans-serif;
 }
 
@@ -71,9 +71,9 @@
     background-color: var(--color-bone);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-weight: 300;
+    font-weight: 400;
     font-synthesis-weight: none;
-    letter-spacing: 0.01em;
+    letter-spacing: 0;
     text-rendering: optimizeLegibility;
   }
 
@@ -83,7 +83,7 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 500;
-    font-variation-settings: "opsz" 12;
+    font-variation-settings: "SOFT" 50;
     letter-spacing: 0;
     text-wrap: balance;
   }
@@ -255,7 +255,7 @@
 @utility type-hero {
   font-family: var(--font-display);
   font-weight: 500;
-  font-variation-settings: "opsz" 16;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(2.5rem, 6.6vw, 5.5rem);
   line-height: 1.04;
   letter-spacing: -0.002em;
@@ -265,7 +265,7 @@
 @utility type-display {
   font-family: var(--font-display);
   font-weight: 500;
-  font-variation-settings: "opsz" 14;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(1.875rem, 4vw, 3.25rem);
   line-height: 1.1;
   letter-spacing: 0;
@@ -275,7 +275,7 @@
 @utility type-title {
   font-family: var(--font-display);
   font-weight: 500;
-  font-variation-settings: "opsz" 12;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(1.4375rem, 2.3vw, 2.125rem);
   line-height: 1.2;
   letter-spacing: 0;
@@ -285,7 +285,7 @@
 @utility type-subtitle {
   font-family: var(--font-display);
   font-weight: 500;
-  font-variation-settings: "opsz" 10;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(1.125rem, 1.5vw, 1.375rem);
   line-height: 1.36;
   letter-spacing: 0.002em;
@@ -295,7 +295,7 @@
 @utility type-lede {
   font-family: var(--font-display);
   font-weight: 400;
-  font-variation-settings: "opsz" 9;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(1.125rem, 1.7vw, 1.4375rem);
   line-height: 1.6;
   letter-spacing: 0.004em;
@@ -307,7 +307,7 @@
 @utility type-lockup {
   font-family: var(--font-display);
   font-weight: 500;
-  font-variation-settings: "opsz" 16;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(1.75rem, 5vw, 4.25rem);
   line-height: 1.05;
   letter-spacing: 0.06em;
@@ -337,7 +337,7 @@
   font-size: 0.6875rem;
   font-weight: 400;
   line-height: 1;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--color-ash);
 }
@@ -345,7 +345,7 @@
 @utility quote-mark {
   font-family: var(--font-display);
   font-weight: 400;
-  font-variation-settings: "opsz" 11;
+  font-variation-settings: "SOFT" 50;
   font-size: clamp(1.5rem, 2.8vw, 2.25rem);
   line-height: 1.35;
   letter-spacing: -0.01em;
@@ -444,7 +444,7 @@
   font-size: 0.6875rem;
   font-weight: 400;
   line-height: 1.2;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -455,7 +455,7 @@
   gap: 0.5rem;
   padding: 0.95rem 1.75rem;
   font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   border: 1px solid currentColor;
   transition:
@@ -491,5 +491,24 @@
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
+  }
+}
+
+/* Display headings: Fraunces at medium weight, tighter spacing */
+@layer base {
+  .font-display {
+    font-variation-settings: "SOFT" 50;
+    letter-spacing: -0.015em;
+  }
+  h1.font-display,
+  h2.font-display {
+    font-weight: 450;
+  }
+}
+
+/* Phones: body text never below 15px */
+@media (max-width: 767px) {
+  body {
+    font-size: 15px;
   }
 }

@@ -81,7 +81,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
       <Link href={`/shop/${product.slug}`} className="mt-3 block">
         <div className="flex justify-between gap-3 text-[0.8125rem]">
           <span>{product.name}</span>
-          <span>{formatPrice(product.price)}</span>
+          <span className="font-medium">{formatPrice(product.price)}</span>
         </div>
         <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.6875rem] text-ash">
           {product.unisex && <span className="cap border border-olive/60 px-1.5 py-0.5 text-[0.5rem] text-olive">Unisex</span>}
