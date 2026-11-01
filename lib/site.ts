@@ -4,7 +4,7 @@ export const site = {
   name: "JD’ORO",
   legalName: "JD’ORO Atelier",
   plainName: "JD'ORO",
-  url: "https://jdoro.in",
+  url: "https://www.jdoro.in",
   locale: "en_IN",
   madeIn: "India",
   jurisdiction: "India",
