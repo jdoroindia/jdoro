@@ -202,15 +202,20 @@ export function FittingRoom() {
           <b className="font-medium">{formatPrice(total)}</b>
         </div>
         {look.length > 0 ? (
-          <a href={whatsappLink(items, total, findProduct)} target="_blank" rel="noreferrer" className="btn w-full border-ink bg-ink text-shell hover:border-bur hover:bg-bur">
-            Checkout this look
-          </a>
+          <>
+            <Link href="/checkout" className="btn w-full border-ink bg-ink text-shell hover:border-bur hover:bg-bur">
+              Checkout this look
+            </Link>
+            <a href={whatsappLink(items, total, findProduct)} target="_blank" rel="noreferrer" className="mt-2 block text-center text-[0.75rem] underline underline-offset-2">
+              or order on WhatsApp
+            </a>
+          </>
         ) : (
           <Link href="/shop" className="btn w-full border-ink bg-ink text-shell">
             Browse the drop
           </Link>
         )}
-        <p className="mt-2.5 text-center text-[0.6875rem] text-ash">Confirm sizes and pay securely with us on WhatsApp. Remove or swap any piece before you pay.</p>
+        <p className="mt-2.5 text-center text-[0.6875rem] text-ash">Pay securely by UPI, card or netbanking. Remove or swap any piece before you pay.</p>
 
         {recommended.length > 0 && (
           <>

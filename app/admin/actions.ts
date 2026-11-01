@@ -139,3 +139,19 @@ export async function saveDrop(_: unknown, form: FormData) {
     return { ok: false, message: (e as Error).message };
   }
 }
+
+const orderStatuses = ["paid", "cutting", "shipped", "delivered", "cancelled"];
+
+export async function updateOrder(id: string, patch: { status?: string; tracking?: string }) {
+  const supabase = await requireAdmin();
+  const row: Record<string, string | null> = {};
+  if (patch.status) {
+    if (!orderStatuses.includes(patch.status)) throw new Error("Unknown status");
+    row.status = patch.status;
+  }
+  if (patch.tracking !== undefined) row.tracking = patch.tracking.trim() || null;
+  const { error } = await supabase.from("orders").update(row).eq("id", id).neq("status", "pending");
+  if (error) throw new Error(error.message);
+  revalidatePath("/admin/orders");
+  revalidatePath(`/order/${id}`);
+}

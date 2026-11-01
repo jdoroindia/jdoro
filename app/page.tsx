@@ -41,9 +41,12 @@ export default async function Home() {
           </p>
           <div>
             <h1 className="font-display text-[clamp(3.5rem,8vw,7.5rem)] font-normal leading-[0.92] text-shell">
-              Made slow.
-              <br />
-              <em className="font-normal text-shell/90">Worn</em> often.
+              {/* Edited in /admin → Drop text. Each sentence gets its own line. */}
+              {(drop.line.match(/[^.!?]+[.!?]*/g) ?? [drop.line]).map((s, i) => (
+                <span key={i} className="block">
+                  {s.trim()}
+                </span>
+              ))}
             </h1>
             <p className="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-shell/85">{drop.intro}</p>
             <div className="mt-9 flex flex-wrap gap-3">

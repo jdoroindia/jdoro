@@ -13,6 +13,7 @@ export default async function PanelLayout({ children }: { children: React.ReactN
     <div className="mx-auto max-w-5xl px-5 py-8 md:px-8">
       <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
         <nav className="flex gap-6 text-[0.875rem]">
+          <Link href="/admin/orders" className="link-draw">Orders</Link>
           <Link href="/admin" className="link-draw">Products</Link>
           <Link href="/admin/products/new" className="link-draw">+ New piece</Link>
           <Link href="/admin/drop" className="link-draw">Drop text</Link>
