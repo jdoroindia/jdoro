@@ -2,13 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Jost } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { buttons } from "@/lib/microcopy";
+import { FittingRoomProvider } from "@/lib/fitting-room";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-/* Matched to the logotype: a didone with hairline serifs and sharp ball
-   terminals. The optical size axis is requested so headline sizes can carry
-   finer hairlines than body sizes. */
 const bodoni = Bodoni_Moda({
   variable: "--font-bodoni",
   subsets: ["latin"],
@@ -26,22 +23,11 @@ const jost = Jost({
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: `${site.name} — Womenswear made from deadstock fabric, ready to ship or cut to your measure`,
+    default: `${site.name} — ${site.signature} Womenswear by ${site.founder}`,
     template: `%s — ${site.name}`,
   },
   description: site.summary,
   applicationName: site.plainName,
-  keywords: [
-    "deadstock fabric clothing",
-    "small batch womenswear",
-    "made to measure womenswear",
-    "slow fashion label India",
-    "natural fibre clothing",
-    "limited run tailoring",
-    "zero waste fashion atelier",
-  ],
-  authors: [{ name: site.legalName, url: site.url }],
-  creator: site.legalName,
   openGraph: {
     type: "website",
     siteName: site.plainName,
@@ -49,29 +35,18 @@ export const metadata: Metadata = {
     url: site.url,
     title: `${site.name} — ${site.signature}`,
     description: site.summary,
+    images: ["/video/hero-poster.jpg"],
   },
-  twitter: {
-    card: "summary_large_image",
-    title: `${site.name} — Made-to-order womenswear`,
-    description: site.summary,
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-  alternates: {
-    canonical: "/",
-  },
+  twitter: { card: "summary_large_image", title: site.name, description: site.summary },
+  alternates: { canonical: "/" },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f1ede4",
+  themeColor: "#faf7f3",
   colorScheme: "light",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
@@ -81,15 +56,17 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col bg-bone">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-5 focus:py-3 focus:text-[0.6875rem] focus:uppercase focus:tracking-[0.2em] focus:text-paper"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-5 focus:py-3 focus:text-xs focus:uppercase focus:tracking-[0.2em] focus:text-paper"
         >
-          {buttons.skipToContent}
+          Skip to content
         </a>
-        <SiteHeader />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        <FittingRoomProvider>
+          <SiteHeader />
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </FittingRoomProvider>
       </body>
     </html>
   );

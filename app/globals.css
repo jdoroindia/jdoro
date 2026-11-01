@@ -8,27 +8,31 @@
 
 @theme {
   /* Surfaces */
-  --color-bone: #f1ede4;
-  --color-paper: #faf8f3;
-  --color-shell: #e8e2d5;
-  --color-umber: #241f19;
-  --color-espresso: #14110e;
+  --color-bone: #faf7f3;
+  --color-paper: #fffdfb;
+  --color-shell: #ede3d9;
+  --color-umber: #2a0d0c;
+  --color-espresso: #141111;
 
   /* Ink */
-  --color-ink: #1b1815;
-  --color-graphite: #3b3630;
-  --color-ash: #6d6660;
-  --color-mist: #9b948b;
+  --color-ink: #141111;
+  --color-graphite: #3b3533;
+  --color-ash: #6e6561;
+  --color-mist: #a39893;
 
   /* Structure */
-  --color-line: #d9d0be;
-  --color-line-soft: #e4dccc;
-  --color-line-dark: #3a332a;
+  --color-line: #e2d8cd;
+  --color-line-soft: #ece4db;
+  --color-line-dark: #3d2422;
 
   /* Accent — "oro" */
-  --color-oro: #9a7b45;
-  --color-oro-soft: #c0a577;
-  --color-clay: #b08e6a;
+  --color-bur: #4a1412;
+  --color-candy: #edb2bf;
+  --color-berry: #e86b7d;
+  --color-olive: #806b29;
+  --color-oro: #4a1412;
+  --color-oro-soft: #e86b7d;
+  --color-clay: #b4806e;
 
   /* Motion */
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
@@ -336,4 +340,45 @@
 
 @utility animate-drape {
   animation: drape 2.4s var(--ease-drape) both;
+}
+
+/* ==========================================================================
+   Drop 01 system
+   ========================================================================== */
+
+@utility cap {
+  font-size: 0.6875rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 1.75rem;
+  font-size: 0.6875rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  transition:
+    background-color 0.3s var(--ease-editorial),
+    color 0.3s var(--ease-editorial),
+    border-color 0.3s var(--ease-editorial);
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@utility animate-marquee {
+  animation: marquee 38s linear infinite;
 }

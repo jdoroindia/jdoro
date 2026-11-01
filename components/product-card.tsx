@@ -1,92 +1,89 @@
+"use client";
+
+import Image from "next/image";
 import Link from "next/link";
-import { Media } from "@/components/media";
+import { useFittingRoom } from "@/lib/fitting-room";
+import { formatPrice, type Product } from "@/lib/products";
 import { cx } from "@/lib/cx";
-import { badges, soldOut } from "@/lib/microcopy";
-import {
-  formatPrice,
-  garmentsRemaining,
-  type Product,
-} from "@/lib/products";
 
-/**
- * One piece in a grid. The card names the fabric and how much of it is left,
- * because scarcity here is a fact about the roll rather than a sales tactic.
- */
-export function ProductCard({
-  product,
-  priority = false,
+/** Front/back crops are 3:4 and fill the frame; single shots sit inside it. */
+export function ProductImage({
+  src,
+  alt,
+  fill = true,
   sizes,
+  priority,
+  className,
 }: {
-  product: Product;
+  src: string;
+  alt: string;
+  fill?: boolean;
+  sizes: string;
   priority?: boolean;
-  sizes?: string;
+  className?: string;
 }) {
-  const remaining = garmentsRemaining(product);
-  const hasReady = product.sizes.some((size) => size.state === "ready");
-  const isRetired = remaining < 1 && !hasReady;
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      fill
+      sizes={sizes}
+      priority={priority}
+      className={cx(fill ? "object-cover" : "object-contain p-[8%]", className)}
+    />
+  );
+}
 
-  const flag = isRetired
-    ? soldOut.badge
-    : remaining > 0 && remaining <= 2
-      ? soldOut.badgeFinalMetres
-      : hasReady
-        ? badges.readyToShip
-        : badges.madeToOrder;
+export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
+  const { has, toggle, ready } = useFittingRoom();
+  const colour = product.colours[0];
+  const inLook = ready && has(product.slug);
+  const filled = Boolean(colour.back);
 
   return (
     <article className="group">
-      <Link href={`/collection/${product.slug}`} className="block">
-        <Media
-          src={product.image}
-          alt={`${product.name} — ${product.line}`}
-          texture={product.texture}
-          tone={product.tone}
-          ratio="3 / 4"
-          priority={priority}
-          sizes={sizes}
-          showCaption={false}
-          caption={product.shots[0]?.note}
-          overlay={
-            <div className="flex justify-between p-4">
-              <span
-                className={cx(
-                  "eyebrow bg-paper/90 px-3 py-2 backdrop-blur-sm",
-                  isRetired ? "text-ash" : "text-ink",
-                )}
-              >
-                {flag}
-              </span>
-            </div>
-          }
-        />
-
-        <div className="mt-5 flex items-baseline justify-between gap-4">
-          <h3 className="type-subtitle text-ink transition-colors duration-500 ease-editorial group-hover:text-oro">
-            {product.name}
-          </h3>
-          <p className="shrink-0 text-[0.8125rem] tracking-wide text-graphite">
-            {formatPrice(product.price)}
-          </p>
+      <div className="relative aspect-[3/4] overflow-hidden border border-line bg-white">
+        <Link href={`/shop/${product.slug}`} aria-label={product.name} className="absolute inset-0">
+          <ProductImage
+            src={colour.image}
+            alt={`${product.name} in ${colour.name}`}
+            fill={filled}
+            priority={priority}
+            sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 90vw"
+            className="transition duration-700 ease-[var(--ease-editorial)] group-hover:scale-[1.03]"
+          />
+          {colour.back && (
+            <ProductImage
+              src={colour.back}
+              alt=""
+              sizes="(min-width: 1024px) 22vw, 45vw"
+              className="opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+            />
+          )}
+        </Link>
+        {product.left <= 4 && (
+          <span className="cap absolute left-3 top-3 bg-candy px-2.5 py-1.5 text-[0.5625rem] text-bur">
+            Only {product.left} left
+          </span>
+        )}
+        <button
+          type="button"
+          onClick={() => toggle(product.slug)}
+          aria-pressed={inLook}
+          className={cx(
+            "cap absolute inset-x-3 bottom-3 border py-3 text-[0.625rem] transition md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:focus-visible:opacity-100",
+            inLook ? "border-bur bg-bur text-shell md:translate-y-0 md:opacity-100" : "border-line bg-bone text-bur hover:bg-shell",
+          )}
+        >
+          {inLook ? "✓ In your look" : "+ Try on model"}
+        </button>
+      </div>
+      <Link href={`/shop/${product.slug}`} className="mt-3 block">
+        <div className="flex justify-between gap-3 text-[0.8125rem]">
+          <span>{product.name}</span>
+          <span>{formatPrice(product.price)}</span>
         </div>
-
-        <p className="type-caption mt-2">{product.line}</p>
-
-        <p className="eyebrow mt-4 text-oro">
-          {product.fabric.source === "deadstock"
-            ? badges.deadstock
-            : badges.naturalFibre}
-          <span className="text-ash"> · {product.fabric.name}</span>
-        </p>
-
-        <p className="type-caption mt-2">
-          {isRetired
-            ? "Fabric finished — this piece has retired."
-            : remaining === 1
-              ? soldOut.singleLeft
-              : remaining > 0
-                ? `${soldOut.lowStockPrefix} ${remaining} ${soldOut.lowStockSuffix}`
-                : "Ready to ship in the sizes cut."}
-        </p>
+        <p className="mt-1 text-[0.6875rem] text-ash">{product.detail}</p>
       </Link>
     </article>
   );

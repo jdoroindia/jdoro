@@ -224,8 +224,8 @@ export default function ShippingReturnsPage() {
 
           <Reveal delay={120}>
             <div className="mt-12 flex flex-wrap gap-x-8 gap-y-4">
-              <ArrowLink href="/faq">All questions</ArrowLink>
-              <ArrowLink href="/packaging">What the box is made of</ArrowLink>
+              <ArrowLink href="/contact">Ask us anything</ArrowLink>
+              <ArrowLink href="/fitting-room">Back to your Fitting Room</ArrowLink>
             </div>
           </Reveal>
         </div>

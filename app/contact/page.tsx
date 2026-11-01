@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import { PageHero } from "@/components/page-hero";
 import { ContactForm } from "@/components/contact-form";
-import { Newsletter } from "@/components/newsletter";
 import { Reveal } from "@/components/reveal";
-import { ArrowLink, SectionHead } from "@/components/ui";
-import { forms } from "@/lib/microcopy";
+import { SectionHead } from "@/components/ui";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -48,6 +46,11 @@ export default function ContactPage() {
                         className="link-draw text-ink hover:text-oro"
                       >
                         {site.contact.email}
+                      </a>
+                    </li>
+                    <li>
+                      <a href={`https://wa.me/${site.contact.whatsapp}`} className="link-draw text-ink hover:text-oro">
+                        WhatsApp us
                       </a>
                     </li>
                     <li>
@@ -109,31 +112,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="hairline-t bg-bone">
-        <div className="shell grid gap-12 py-16 md:grid-cols-2 md:py-20">
-          <Reveal>
-            <SectionHead
-              eyebrow={forms.newsletterHeading}
-              title="One letter a month, at most."
-              lede={forms.newsletterBody}
-            />
-          </Reveal>
-          <Reveal delay={120}>
-            <div className="md:pt-4">
-              <Newsletter tone="light" />
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      <section className="hairline-t bg-paper">
-        <div className="shell flex flex-wrap items-center justify-between gap-8 py-14">
-          <p className="type-title max-w-xl text-ink">
-            Most questions are already answered, in one line each.
-          </p>
-          <ArrowLink href="/faq">Read the questions</ArrowLink>
-        </div>
-      </section>
     </>
   );
 }

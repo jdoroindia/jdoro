@@ -1,39 +1,20 @@
-import { ButtonLink, Eyebrow } from "@/components/ui";
-import { errors } from "@/lib/microcopy";
-import { siteMap } from "@/lib/site";
 import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <section className="shell py-24 md:py-36">
-      <Eyebrow>404</Eyebrow>
-      <h1 className="type-display mt-7 max-w-2xl text-ink">
-        {errors.notFoundHeading}
+    <section className="mx-auto flex max-w-[88rem] flex-col items-start px-5 py-28 md:px-10">
+      <p className="cap text-berry">404</p>
+      <h1 className="mt-4 font-display text-[clamp(2.5rem,5vw,4rem)] font-normal leading-tight text-bur">
+        This piece isn’t on the rail.
       </h1>
-      <p className="type-body mt-7 max-w-xl">{errors.notFoundBody}</p>
-
-      <div className="mt-11">
-        <ButtonLink href="/collection">See the collection</ButtonLink>
-      </div>
-
-      <div className="mt-20 grid gap-10 border-t border-line pt-12 sm:grid-cols-2 lg:grid-cols-4">
-        {siteMap.map((column) => (
-          <nav key={column.heading} aria-label={column.heading}>
-            <p className="eyebrow">{column.heading}</p>
-            <ul className="mt-5 space-y-3">
-              {column.links.map((link) => (
-                <li key={`${column.heading}-${link.href}`}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-graphite transition-colors duration-500 hover:text-oro"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ))}
+      <p className="mt-4 max-w-md text-[0.9375rem] text-graphite">It may have sold out with the last of its fabric.</p>
+      <div className="mt-9 flex gap-3">
+        <Link href="/shop" className="btn border-bur bg-bur text-shell hover:bg-ink hover:border-ink">
+          Shop the drop
+        </Link>
+        <Link href="/" className="btn text-ink hover:bg-ink hover:text-shell">
+          Home
+        </Link>
       </div>
     </section>
   );
