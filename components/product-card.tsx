@@ -62,7 +62,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           )}
         </Link>
         {product.left <= 4 && (
-          <span className="cap absolute left-3 top-3 bg-candy px-2.5 py-1.5 text-[0.5625rem] text-bur">
+          <span className="cap absolute left-3 top-3 bg-ink px-2.5 py-1.5 text-[0.5625rem] text-shell">
             Only {product.left} left
           </span>
         )}
@@ -83,7 +83,10 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           <span>{product.name}</span>
           <span>{formatPrice(product.price)}</span>
         </div>
-        <p className="mt-1 text-[0.6875rem] text-ash">{product.detail}</p>
+        <p className="mt-1 flex items-center gap-2 text-[0.6875rem] text-ash">
+          {product.unisex && <span className="cap border border-olive/60 px-1.5 py-0.5 text-[0.5rem] text-olive">Unisex</span>}
+          <span>{product.detail} · {product.fit} fit</span>
+        </p>
       </Link>
     </article>
   );

@@ -11,7 +11,7 @@ const ethos = [
   { n: "03", title: "Rare-run fabric", body: "Limited rolls of surplus mill fabric. Once a roll is used up, it never comes back." },
 ];
 
-const ticker = ["Smocked waists", "Bubble hems", "Buttons with a story", "Rare-run fabric", "Made to order", "Drop 01"];
+const ticker = ["For everyone", "Easy shapes", "Buttons with a story", "Rare-run fabric", "Made to order", "Drop 01"];
 
 export default function Home() {
   return (
@@ -40,13 +40,13 @@ export default function Home() {
           </p>
           <div>
             <h1 className="font-display text-[clamp(3.5rem,8vw,7.5rem)] font-normal leading-[0.92] text-shell">
-              Sweet,
+              Made slow.
               <br />
-              <em className="font-normal text-candy">not</em> sugary.
+              <em className="font-normal text-shell/90">Worn</em> often.
             </h1>
             <p className="mt-6 max-w-sm text-[0.9375rem] leading-relaxed text-shell/85">{drop.intro}</p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <Link href="/fitting-room" className="btn border-shell bg-shell text-bur hover:border-candy hover:bg-candy">
+              <Link href="/fitting-room" className="btn border-shell bg-shell text-bur hover:border-shell hover:bg-transparent hover:text-shell">
                 Style the drop
               </Link>
               <Link href="/shop" className="btn text-shell hover:bg-shell hover:text-bur">
@@ -64,11 +64,11 @@ export default function Home() {
       </section>
 
       {/* Ticker */}
-      <div className="overflow-hidden border-b border-line bg-candy/60 py-3 text-bur" aria-hidden>
+      <div className="overflow-hidden border-b border-line bg-ink py-3 text-shell" aria-hidden>
         <div className="animate-marquee flex w-max gap-10 whitespace-nowrap">
           {[...ticker, ...ticker, ...ticker, ...ticker].map((t, i) => (
             <span key={i} className="cap flex items-center gap-10">
-              {t} <span className="text-berry">✦</span>
+              {t} <span className="text-clay">✦</span>
             </span>
           ))}
         </div>
@@ -78,7 +78,7 @@ export default function Home() {
       <section id="drop" className="mx-auto max-w-[88rem] scroll-mt-28 px-5 py-20 md:px-10 lg:py-28">
         <div className="mb-10 flex flex-wrap items-end justify-between gap-6">
           <div>
-            <span className="cap mb-3 inline-block bg-candy px-2.5 py-1.5 text-[0.625rem] text-bur">New drop</span>
+            <span className="cap mb-3 inline-block bg-olive px-2.5 py-1.5 text-[0.625rem] text-shell">New drop</span>
             <h2 className="font-display text-[clamp(2.25rem,4vw,3.25rem)] font-normal leading-tight">{drop.name}</h2>
           </div>
           <Link href="/fitting-room" className="btn border-ink bg-ink text-shell hover:bg-bur hover:border-bur">
@@ -98,7 +98,7 @@ export default function Home() {
       <section className="bg-bur text-shell">
         <div className="mx-auto grid max-w-[88rem] items-center gap-12 px-5 py-20 md:px-10 lg:grid-cols-2 lg:py-24">
           <div>
-            <p className="cap text-candy">The Fitting Room</p>
+            <p className="cap text-clay">The Fitting Room</p>
             <h2 className="mt-4 font-display text-[clamp(2.25rem,4vw,3.5rem)] font-normal leading-[1.05]">
               Build the look first. Pay for it after.
             </h2>
@@ -136,9 +136,9 @@ export default function Home() {
           <Image src="/products/p3.jpg" alt="Wave Seam Dress in rust" fill sizes="(min-width:1024px) 45vw, 90vw" className="object-contain px-[16%] pb-[4%] pt-[14%] mix-blend-multiply" />
         </Reveal>
         <Reveal delay={120}>
-          <p className="cap text-berry">About us</p>
+          <p className="cap text-olive">About us</p>
           <h2 className="mt-4 font-display text-[clamp(2rem,3.6vw,3rem)] font-normal leading-[1.08] text-bur">
-            Made by Jahnvi, for the girl who dresses up for herself.
+            Made by Jahnvi, for anyone who dresses for themselves.
           </h2>
           <p className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-graphite">
             JD’ORO is a small label by {site.founder}. Every drop starts with a limited roll of fabric and ends when it
@@ -154,7 +154,7 @@ export default function Home() {
       <section className="border-t border-line bg-shell/60">
         <div className="mx-auto flex max-w-[88rem] flex-wrap items-center justify-between gap-6 px-5 py-12 md:px-10">
           <div>
-            <p className="cap text-berry">Follow the drop</p>
+            <p className="cap text-olive">Follow the drop</p>
             <p className="mt-3 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-normal text-bur">{site.instagram.handle}</p>
           </div>
           <a
@@ -172,7 +172,7 @@ export default function Home() {
       <section className="grid border-y border-line md:grid-cols-3">
         {ethos.map((e) => (
           <div key={e.n} className="border-b border-line px-5 py-10 last:border-b-0 md:border-b-0 md:border-r md:px-10 md:py-12 md:last:border-r-0">
-            <span className="cap text-berry">{e.n}</span>
+            <span className="cap text-olive">{e.n}</span>
             <h3 className="mt-3 font-display text-2xl font-normal">{e.title}</h3>
             <p className="mt-2 text-[0.8125rem] leading-relaxed text-ash">{e.body}</p>
           </div>

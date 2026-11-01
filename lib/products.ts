@@ -6,6 +6,8 @@
  * swapping this file for a Storefront API fetch later only changes this module.
  */
 
+export type Fit = "Relaxed" | "Regular" | "Oversized";
+
 export type Category = "tops" | "dresses" | "jackets";
 
 export type Colour = {
@@ -21,6 +23,9 @@ export type Product = {
   name: string;
   price: number;
   category: Category;
+  fit: Fit;
+  /** Cut to work on any body. Shown first and tagged in the shop. */
+  unisex: boolean;
   detail: string;
   description: string;
   fabric: string;
@@ -36,15 +41,17 @@ const SIZES = ["XS", "S", "M", "L", "XL"];
 
 export const drop = {
   number: "01",
-  name: "Stripes & Smocking",
-  line: "Sweet, not sugary.",
+  name: "Stripes & Patchwork",
+  line: "Made slow. Worn often.",
   intro:
-    "Smocked waists, bubble hems and buttons with a story. Style the pieces on the model before you buy.",
+    "Easy shapes, honest fabric and buttons with a story. Pieces for anyone, styled in the Fitting Room before you buy.",
 };
 
-export const products: Product[] = [
+const catalogue: Product[] = [
   {
     slug: "candy-stripe-shirt",
+    fit: "Regular",
+    unisex: false,
     pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Candy Stripe Shirt",
     price: 3800,
@@ -59,6 +66,8 @@ export const products: Product[] = [
   },
   {
     slug: "bubble-tie-top",
+    fit: "Relaxed",
+    unisex: false,
     pairsWith: ["patchwork-denim-jacket","shell-button-shirt"],
     name: "Bubble Tie Top",
     price: 3200,
@@ -76,6 +85,8 @@ export const products: Product[] = [
   },
   {
     slug: "bell-sleeve-tie-top",
+    fit: "Relaxed",
+    unisex: false,
     pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Bell Sleeve Tie Top",
     price: 3600,
@@ -89,6 +100,8 @@ export const products: Product[] = [
   },
   {
     slug: "wave-seam-dress",
+    fit: "Regular",
+    unisex: false,
     pairsWith: ["patchwork-denim-jacket","shell-button-shirt"],
     name: "Wave Seam Dress",
     price: 5900,
@@ -102,6 +115,8 @@ export const products: Product[] = [
   },
   {
     slug: "patchwork-denim-jacket",
+    fit: "Oversized",
+    unisex: true,
     pairsWith: ["bubble-tie-top","candy-stripe-shirt","wave-seam-dress","ruffle-sleeve-shirt"],
     name: "Patchwork Denim Jacket",
     price: 6800,
@@ -115,6 +130,8 @@ export const products: Product[] = [
   },
   {
     slug: "button-story-shirt",
+    fit: "Regular",
+    unisex: true,
     pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Button Story Shirt",
     price: 4200,
@@ -128,6 +145,8 @@ export const products: Product[] = [
   },
   {
     slug: "shell-button-shirt",
+    fit: "Relaxed",
+    unisex: true,
     pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Shell Button Shirt",
     price: 3900,
@@ -141,6 +160,8 @@ export const products: Product[] = [
   },
   {
     slug: "wave-placket-shirt",
+    fit: "Relaxed",
+    unisex: true,
     pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Wave Placket Shirt",
     price: 3600,
@@ -154,6 +175,8 @@ export const products: Product[] = [
   },
   {
     slug: "ruffle-sleeve-shirt",
+    fit: "Regular",
+    unisex: false,
     pairsWith: ["pearl-loop-vest","patchwork-denim-jacket"],
     name: "Ruffle Sleeve Shirt",
     price: 3700,
@@ -167,6 +190,8 @@ export const products: Product[] = [
   },
   {
     slug: "pearl-loop-vest",
+    fit: "Regular",
+    unisex: true,
     pairsWith: ["ruffle-sleeve-shirt","candy-stripe-shirt","button-story-shirt","wave-placket-shirt"],
     name: "Pearl Loop Vest",
     price: 3400,
@@ -180,8 +205,20 @@ export const products: Product[] = [
   },
 ];
 
-export const categories: { id: Category | "all"; label: string }[] = [
+/** Unisex pieces lead, so the drop opens on clothes for everyone. */
+export const products: Product[] = [...catalogue].sort((a, b) => Number(b.unisex) - Number(a.unisex));
+
+export const fits: Fit[] = ["Relaxed", "Regular", "Oversized"];
+
+export type Filter = Category | "all" | "unisex";
+
+export function matches(p: Product, filter: Filter) {
+  return filter === "all" || (filter === "unisex" ? p.unisex : p.category === filter);
+}
+
+export const categories: { id: Filter; label: string }[] = [
   { id: "all", label: "All" },
+  { id: "unisex", label: "Unisex" },
   { id: "tops", label: "Tops" },
   { id: "dresses", label: "Dresses" },
   { id: "jackets", label: "Jackets" },

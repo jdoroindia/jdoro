@@ -142,7 +142,7 @@ export function Select({
                 className={cx(
                   "flex cursor-pointer items-center justify-between gap-6 px-3.5 py-2",
                   md ? "text-[0.875rem]" : "text-[0.75rem]",
-                  i === active ? "bg-candy/45 text-bur" : "text-ink",
+                  i === active ? "bg-shell text-bur" : "text-ink",
                 )}
               >
                 <span>

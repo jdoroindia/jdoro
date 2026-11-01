@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ProductImage } from "@/components/product-card";
 import { Select } from "@/components/select";
 import { useFittingRoom, type LookItem } from "@/lib/fitting-room";
-import { categories, findProduct, formatPrice, products, stylesWith, type Category, type Product } from "@/lib/products";
+import { categories, findProduct, formatPrice, products, stylesWith, matches, type Filter, type Product } from "@/lib/products";
 import { site } from "@/lib/site";
 import { cx } from "@/lib/cx";
 
@@ -35,11 +35,11 @@ function whatsappLink(items: LookItem[], total: number) {
 
 export function FittingRoom() {
   const { items, ready, toggle, has, update, remove, total } = useFittingRoom();
-  const [cat, setCat] = useState<Category | "all">("all");
+  const [cat, setCat] = useState<Filter>("all");
   const [active, setActive] = useState<string | null>(null);
   const router = useRouter();
 
-  const list = cat === "all" ? products : products.filter((p) => p.category === cat);
+  const list = products.filter((p) => matches(p, cat));
   const look = items.map((i) => ({ item: i, product: findProduct(i.slug)! })).filter((x) => x.product);
   const activeEntry = look.find((x) => x.item.slug === active) ?? look[look.length - 1];
   const recommended = look.length

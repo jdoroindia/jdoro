@@ -15,11 +15,20 @@ const sizeChart = [
   { size: "XL", bust: 40, waist: 34, hip: 43 },
 ];
 
+/** Garment measurements in inches, laid flat. Placeholder values. */
+const garmentChart = [
+  { size: "XS", chest: 38, shoulder: 16, length: 26 },
+  { size: "S", chest: 40, shoulder: 17, length: 27 },
+  { size: "M", chest: 42, shoulder: 18, length: 28 },
+  { size: "L", chest: 44, shoulder: 19, length: 29 },
+  { size: "XL", chest: 46, shoulder: 20, length: 30 },
+];
+
 const CUSTOM = "Custom";
 
 /** Fields for a made-to-measure request, in inches. */
 const measureFields = [
-  { key: "bust", label: "Bust", required: true },
+  { key: "bust", label: "Bust / chest", required: true },
   { key: "waist", label: "Waist", required: true },
   { key: "hip", label: "Hip", required: true },
   { key: "shoulder", label: "Shoulder", required: false },
@@ -35,6 +44,8 @@ export function ProductDetail({ product }: { product: Product }) {
   const [attempted, setAttempted] = useState(false);
   const [measures, setMeasures] = useState<Record<string, string>>({});
   const chartRef = useRef<HTMLDialogElement>(null);
+  // Unisex pieces open on the shirt (garment) chart, which suits every body.
+  const [chart, setChart] = useState<"body" | "garment">(product.unisex ? "garment" : "body");
   const colour = product.colours.find((c) => c.name === colourName) ?? product.colours[0];
   const views = [colour.image, colour.back].filter(Boolean) as string[];
   const filled = Boolean(colour.back);
@@ -85,7 +96,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
       <div className="lg:sticky lg:top-32 lg:self-start">
         {product.left <= 4 && (
-          <span className="cap inline-block bg-candy px-2.5 py-1.5 text-[0.5625rem] text-bur">Only {product.left} left in this run</span>
+          <span className="cap inline-block bg-ink px-2.5 py-1.5 text-[0.5625rem] text-shell">Only {product.left} left in this run</span>
         )}
         <h1 className="mt-4 font-display text-[clamp(2rem,3.4vw,3rem)] font-normal leading-tight text-bur">{product.name}</h1>
         <p className="mt-2 text-lg">{formatPrice(product.price)}</p>
@@ -238,29 +249,50 @@ export function ProductDetail({ product }: { product: Product }) {
               Close ✕
             </button>
           </div>
+          <div className="mb-4 flex gap-5 border-b border-line text-[0.8125rem]" role="tablist" aria-label="Size chart type">
+            {(["body", "garment"] as const).map((t) => (
+              <button
+                key={t}
+                type="button"
+                role="tab"
+                aria-selected={chart === t}
+                onClick={() => setChart(t)}
+                className={cx("-mb-px border-b pb-2.5", chart === t ? "border-ink text-ink" : "border-transparent text-ash hover:text-ink")}
+              >
+                {t === "body" ? "Body fit · bust, waist, hip" : "Shirt fit · chest, shoulder, length"}
+              </button>
+            ))}
+          </div>
           <table className="w-full text-left text-[0.8125rem]">
-            <caption className="sr-only">Body measurements in inches</caption>
+            <caption className="sr-only">{chart === "body" ? "Body" : "Garment"} measurements in inches</caption>
             <thead>
               <tr className="border-b border-line text-ash">
                 <th className="py-2 font-normal">Size</th>
-                <th className="py-2 font-normal">Bust</th>
-                <th className="py-2 font-normal">Waist</th>
-                <th className="py-2 font-normal">Hip</th>
+                {(chart === "body" ? ["Bust", "Waist", "Hip"] : ["Chest", "Shoulder", "Length"]).map((h) => (
+                  <th key={h} className="py-2 font-normal">
+                    {h}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-              {sizeChart.map((r) => (
-                <tr key={r.size} className={cx("border-b border-line", size === r.size && "bg-shell")}>
-                  <td className="py-2.5">{r.size}</td>
-                  <td>{r.bust}″</td>
-                  <td>{r.waist}″</td>
-                  <td>{r.hip}″</td>
+              {(chart === "body"
+                ? sizeChart.map((r) => [r.size, r.bust, r.waist, r.hip] as const)
+                : garmentChart.map((r) => [r.size, r.chest, r.shoulder, r.length] as const)
+              ).map(([s, a, b, c]) => (
+                <tr key={s} className={cx("border-b border-line", size === s && "bg-shell")}>
+                  <td className="py-2.5">{s}</td>
+                  <td>{a}″</td>
+                  <td>{b}″</td>
+                  <td>{c}″</td>
                 </tr>
               ))}
             </tbody>
           </table>
           <p className="pb-2 pt-3 text-[0.75rem] text-ash">
-            Body measurements in inches. Measure the fullest part of the bust and hip, and the narrowest part of the waist.
+            {chart === "body"
+              ? "Body measurements in inches. Measure the fullest part of the bust and hip, and the narrowest part of the waist."
+              : "Garment measurements in inches, laid flat. Compare with a shirt you own that fits well. Chest is measured across, doubled."}
           </p>
           </div>
         </dialog>

@@ -20,7 +20,7 @@ export function SiteFooter() {
           ))}
         </nav>
         <div className="space-y-3 text-sm text-shell/80">
-          <p className="cap text-candy">Say hello</p>
+          <p className="cap text-clay">Say hello</p>
           <a className="link-draw block w-fit" href={`mailto:${site.contact.email}`}>
             {site.contact.email}
           </a>

@@ -6,7 +6,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `JD’ORO is a womenswear label by ${site.founder}: small drops, made to order in rare-run fabrics.`,
+  description: `JD’ORO is a clothing label by ${site.founder}: small drops, made to order in rare-run fabrics.`,
   alternates: { canonical: "/about" },
 };
 
@@ -21,13 +21,13 @@ export default function AboutPage() {
     <>
       <section className="mx-auto grid max-w-[88rem] items-end gap-10 px-5 pb-16 pt-14 md:px-10 lg:grid-cols-2 lg:pt-20">
         <div>
-          <p className="cap text-berry">About us</p>
+          <p className="cap text-olive">About us</p>
           <h1 className="mt-4 font-display text-[clamp(2.75rem,6vw,5.25rem)] font-normal leading-[0.95] text-bur">
-            Made by Jahnvi, for the girl who dresses up for herself.
+            Made by Jahnvi, for anyone who dresses for themselves.
           </h1>
         </div>
         <p className="max-w-md text-[0.9375rem] leading-relaxed text-graphite lg:justify-self-end">
-          JD’ORO is a small womenswear label by {site.founder}. The clothes are playful in the details and serious in how
+          JD’ORO is a small clothing label by {site.founder}. The clothes are playful in the details and serious in how
           they are made: small drops, cut to order, in rare-run fabrics we buy from mills in small quantities.
         </p>
       </section>
@@ -42,7 +42,7 @@ export default function AboutPage() {
       <section className="grid border-b border-line md:grid-cols-3">
         {steps.map((s) => (
           <div key={s.n} className="border-b border-line px-5 py-12 last:border-b-0 md:border-b-0 md:border-r md:px-10 md:last:border-r-0">
-            <span className="cap text-berry">{s.n}</span>
+            <span className="cap text-olive">{s.n}</span>
             <h2 className="mt-3 font-display text-2xl font-normal">{s.title}</h2>
             <p className="mt-2 text-[0.875rem] leading-relaxed text-ash">{s.body}</p>
           </div>
