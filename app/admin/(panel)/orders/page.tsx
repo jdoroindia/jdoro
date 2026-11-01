@@ -20,7 +20,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
             {open.length} to make · {formatPrice(open.reduce((s, o) => s + o.total, 0))} in open orders
           </p>
         </div>
-        <a href={show === "all" ? "/admin/orders" : "/admin/orders?show=all"} className="text-[0.8125rem] underline">
+        <a href={show === "all" ? "/admin/orders" : "/admin/orders?show=all"} className="inline-flex min-h-11 items-center text-[0.8125rem] underline">
           {show === "all" ? "Hide unpaid attempts" : "Show unpaid attempts too"}
         </a>
       </div>

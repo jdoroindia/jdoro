@@ -24,7 +24,7 @@ export function OrderRow({ order: o, shiprocket }: { order: any; shiprocket: boo
   const lines = o.items as Line[];
 
   return (
-    <li className={cx("border bg-white p-5", o.status === "paid" ? "border-bur" : "border-line")}>
+    <li className={cx("border bg-white p-4 md:p-5", o.status === "paid" ? "border-bur" : "border-line")}>
       <div className="flex flex-wrap items-baseline justify-between gap-3">
         <p className="font-display text-xl">
           #{o.number} · {o.name}
@@ -41,7 +41,7 @@ export function OrderRow({ order: o, shiprocket }: { order: any; shiprocket: boo
           </li>
         ))}
       </ul>
-      <p className="mt-3 text-[0.8125rem] text-graphite">
+      <p className="mt-3 break-words text-[0.8125rem] leading-relaxed text-graphite">
         {[a.line1, a.line2, a.city, a.state, a.pincode].filter(Boolean).join(", ")}
         <br />
         <a className="underline" href={`tel:${o.phone}`}>{o.phone}</a> · <a className="underline" href={`mailto:${o.email}`}>{o.email}</a> ·{" "}
@@ -51,14 +51,14 @@ export function OrderRow({ order: o, shiprocket }: { order: any; shiprocket: boo
       {o.status === "pending" ? (
         <p className="mt-4 text-[0.8125rem] text-ash">Not paid. The customer closed the payment window. Nothing to do.</p>
       ) : (
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="mt-4 grid grid-cols-4 gap-1.5 md:flex md:flex-wrap md:items-center md:gap-2">
           {steps.map((s) => (
             <button
               key={s.id}
               type="button"
               disabled={pending}
               onClick={() => start(() => updateOrder(o.id, { status: s.id }))}
-              className={cx("border px-3 py-1.5 text-[0.8125rem] disabled:opacity-50", o.status === s.id ? "border-ink bg-ink text-shell" : "border-line hover:border-ink")}
+              className={cx("min-h-11 border px-1 text-[0.8125rem] disabled:opacity-50 md:min-h-0 md:px-3 md:py-1.5", o.status === s.id ? "border-ink bg-ink text-shell" : "border-line hover:border-ink")}
             >
               {s.label}
             </button>
@@ -67,9 +67,9 @@ export function OrderRow({ order: o, shiprocket }: { order: any; shiprocket: boo
             value={tracking}
             onChange={(e) => setTracking(e.target.value)}
             placeholder="Tracking / AWB no."
-            className="ml-auto w-44 border-b border-line bg-transparent py-1.5 text-[0.8125rem] outline-none focus:border-bur"
+            className="col-span-3 mt-2 min-h-11 border-b border-line bg-transparent py-1.5 text-[0.8125rem] outline-none focus:border-bur md:col-span-1 md:ml-auto md:mt-0 md:min-h-0 md:w-44"
           />
-          <button type="button" disabled={pending || tracking === (o.tracking ?? "")} onClick={() => start(() => updateOrder(o.id, { tracking }))} className="text-[0.8125rem] underline disabled:opacity-40">
+          <button type="button" disabled={pending || tracking === (o.tracking ?? "")} onClick={() => start(() => updateOrder(o.id, { tracking }))} className="mt-2 min-h-11 text-[0.8125rem] underline disabled:opacity-40 md:mt-0 md:min-h-0">
             Save
           </button>
         </div>
@@ -87,7 +87,7 @@ export function OrderRow({ order: o, shiprocket }: { order: any; shiprocket: boo
                 if (!r.ok) setShipError(r.error ?? "Booking failed.");
               });
             }}
-            className="btn border-olive bg-olive py-2.5 text-shell hover:bg-ink disabled:opacity-50"
+            className="btn w-full border-olive bg-olive py-2.5 text-shell hover:bg-ink disabled:opacity-50 sm:w-auto"
           >
             {pending ? "Booking…" : "Book Shiprocket pickup"}
           </button>

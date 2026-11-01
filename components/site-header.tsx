@@ -52,7 +52,7 @@ export function SiteHeader() {
         </Link>
 
         <nav className="flex min-w-0 items-center justify-end gap-3 md:gap-8" aria-label="Site">
-          <Link href="/search" aria-label="Search" className="-m-1 grid min-h-11 min-w-9 place-items-center hover:text-bur">
+          <Link href="/search" aria-label="Search" className="-m-1 max-sm:hidden grid min-h-11 min-w-9 place-items-center hover:text-bur">
             <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden><path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Zm5.3-2.2L21 21" /></svg>
           </Link>
           <Link href="/wishlist" aria-label={`Wishlist (${saved})`} className="relative -m-1 grid min-h-11 min-w-9 place-items-center hover:text-bur">

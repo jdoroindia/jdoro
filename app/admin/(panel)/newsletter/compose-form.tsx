@@ -9,7 +9,7 @@ export function ComposeForm({ count }: { count: number }) {
   const mode = useRef<HTMLInputElement>(null);
 
   return (
-    <form action={action} className="mt-8 grid max-w-2xl gap-5 border border-line bg-white p-6">
+    <form action={action} className="mt-6 grid max-w-2xl gap-5 border border-line bg-white p-4 md:mt-8 md:p-6">
       <input ref={mode} type="hidden" name="mode" value="test" />
       <label className="block">
         <span className="cap text-[0.625rem] text-ash">Subject</span>

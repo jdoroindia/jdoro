@@ -10,22 +10,22 @@ export default async function PanelLayout({ children }: { children: React.ReactN
   if (!email) redirect("/admin/login");
 
   return (
-    <div className="mx-auto max-w-5xl px-5 py-8 md:px-8">
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-line pb-4">
-        <nav className="flex gap-6 text-[0.875rem]">
-          <Link href="/admin/orders" className="link-draw">Orders</Link>
-          <Link href="/admin" className="link-draw">Products</Link>
-          <Link href="/admin/products/new" className="link-draw">+ New piece</Link>
-          <Link href="/admin/drop" className="link-draw">Drop text</Link>
-          <Link href="/admin/newsletter" className="link-draw">Newsletter</Link>
-          <Link href="/" target="_blank" className="link-draw text-ash">View site ↗</Link>
+    <div className="mx-auto max-w-5xl px-4 py-5 md:px-8 md:py-8">
+      <div className="border-b border-line pb-2 md:flex md:items-center md:justify-between md:gap-4 md:pb-4">
+        <nav className="no-scrollbar -mx-4 flex gap-1 overflow-x-auto px-4 text-[0.875rem] md:mx-0 md:gap-6 md:px-0">
+          <Link href="/admin/orders" className="link-draw inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-2 md:px-0">Orders</Link>
+          <Link href="/admin" className="link-draw inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-2 md:px-0">Products</Link>
+          <Link href="/admin/products/new" className="link-draw inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-2 md:px-0">+ New piece</Link>
+          <Link href="/admin/drop" className="link-draw inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-2 md:px-0">Drop text</Link>
+          <Link href="/admin/newsletter" className="link-draw inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-2 md:px-0">Newsletter</Link>
+          <Link href="/" target="_blank" className="link-draw inline-flex min-h-11 shrink-0 items-center whitespace-nowrap px-2 md:px-0 text-ash">View site ↗</Link>
         </nav>
-        <form action={signOut} className="flex items-center gap-3 text-[0.75rem] text-ash">
-          <span className="hidden sm:inline">{email}</span>
-          <button className="underline underline-offset-2 hover:text-ink">Sign out</button>
+        <form action={signOut} className="mt-1 flex items-center justify-between gap-3 text-[0.75rem] text-ash md:mt-0">
+          <span className="truncate">{email}</span>
+          <button className="min-h-11 shrink-0 underline underline-offset-2 hover:text-ink">Sign out</button>
         </form>
       </div>
-      <div className="pt-8">{children}</div>
+      <div className="pt-6 md:pt-8">{children}</div>
     </div>
   );
 }

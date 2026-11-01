@@ -213,10 +213,10 @@ export function ProductForm({ product, others }: { product: Product | null; othe
         <span className="cap text-[0.625rem] text-ash">Colours and photos</span>
         <div className="mt-3 grid gap-4">
           {colours.map((c, i) => (
-            <div key={i} className="flex flex-wrap items-start gap-5 border border-line bg-white p-4">
+            <div key={i} className="flex flex-wrap items-start gap-4 border border-line bg-white p-3 md:gap-5 md:p-4">
               <PhotoSlot label="Front" src={c.image || undefined} onChange={(u) => setColour(i, { image: u ?? "" })} />
               <PhotoSlot label="Back (optional)" src={c.back} onChange={(u) => setColour(i, { back: u })} />
-              <div className="grid min-w-[12rem] flex-1 gap-4">
+              <div className="grid w-full gap-4 sm:w-auto sm:min-w-[12rem] sm:flex-1">
                 <Field label="Colour name">
                   <input value={c.name} onChange={(e) => setColour(i, { name: e.target.value })} className={inputCls} />
                 </Field>
@@ -252,12 +252,12 @@ export function ProductForm({ product, others }: { product: Product | null; othe
       )}
 
       <label className="flex items-center gap-3 text-[0.9375rem]">
-        <input type="checkbox" checked={f.published} onChange={(e) => set("published", e.target.checked)} className="size-4" />
+        <input type="checkbox" checked={f.published} onChange={(e) => set("published", e.target.checked)} className="size-5" />
         Live on the site
       </label>
 
-      <div className="sticky bottom-0 -mx-5 flex flex-wrap items-center gap-4 border-t border-line bg-bone/95 px-5 py-4 backdrop-blur md:-mx-8 md:px-8">
-        <button disabled={pending} className="btn border-bur bg-bur text-shell hover:bg-ink disabled:opacity-60">
+      <div className="sticky bottom-0 -mx-4 flex flex-wrap items-center gap-3 border-t border-line bg-bone/95 px-4 py-3 backdrop-blur md:-mx-8 md:gap-4 md:px-8 md:py-4">
+        <button disabled={pending} className="btn flex-1 border-bur bg-bur text-shell hover:bg-ink disabled:opacity-60 sm:flex-none">
           {pending ? "Saving…" : product ? "Save changes" : "Create piece"}
         </button>
         {saved && <span role="status" className="text-[0.875rem] text-olive">✓ Saved. The site is updated.</span>}
@@ -274,7 +274,7 @@ export function ProductForm({ product, others }: { product: Product | null; othe
               if (confirm(`Delete “${product.name}” for good? To take it off the site for now, untick “Live on the site” instead.`))
                 start(() => deleteProduct(product.slug));
             }}
-            className="ml-auto text-[0.8125rem] text-error-ink underline"
+            className="min-h-11 text-[0.8125rem] text-error-ink underline sm:ml-auto"
           >
             Delete
           </button>
@@ -290,7 +290,7 @@ function Chip({ on, onClick, children }: { on: boolean; onClick: () => void; chi
       type="button"
       aria-pressed={on}
       onClick={onClick}
-      className={cx("border px-3 py-1.5 text-[0.8125rem] transition-colors", on ? "border-ink bg-ink text-shell" : "border-line bg-white hover:border-ink")}
+      className={cx("min-h-11 border px-3 text-[0.8125rem] transition-colors md:min-h-0 md:py-1.5", on ? "border-ink bg-ink text-shell" : "border-line bg-white hover:border-ink")}
     >
       {children}
     </button>

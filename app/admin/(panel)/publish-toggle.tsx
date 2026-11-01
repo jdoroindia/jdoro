@@ -12,7 +12,7 @@ export function PublishToggle({ slug, published }: { slug: string; published: bo
       disabled={pending}
       onClick={() => start(() => setPublished(slug, !published))}
       className={cx(
-        "cap shrink-0 border px-2.5 py-1.5 text-[0.5625rem] disabled:opacity-50",
+        "cap min-h-11 shrink-0 border px-3 text-[0.625rem] disabled:opacity-50 md:min-h-0 md:py-1.5",
         published ? "border-olive bg-olive text-shell" : "border-mist text-ash",
       )}
       title={published ? "Live on the site. Tap to hide." : "Hidden. Tap to put it live."}
