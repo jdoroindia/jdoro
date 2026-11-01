@@ -34,7 +34,7 @@ export function ProductImage({
   );
 }
 
-export function ProductCard({ product, priority }: { product: Product; priority?: boolean }) {
+export function ProductCard({ product, priority, showUnisex = true }: { product: Product; priority?: boolean; showUnisex?: boolean }) {
   const { has, toggle, ready } = useFittingRoom();
   const colour = product.colours[0] ?? { name: "", hex: "#eee", image: "/video/hero-poster.jpg" };
   const inLook = ready && has(product.slug);
@@ -84,7 +84,7 @@ export function ProductCard({ product, priority }: { product: Product; priority?
           <span className="font-medium">{formatPrice(product.price)}</span>
         </div>
         <p className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.6875rem] text-ash">
-          {product.unisex && <span className="cap border border-olive/60 px-1.5 py-0.5 text-[0.5rem] text-olive">Unisex</span>}
+          {showUnisex && product.unisex && <span className="cap border border-olive/60 px-1.5 py-0.5 text-[0.5rem] text-olive">Unisex</span>}
           <span>{product.detail} · {product.fit} fit</span>
         </p>
       </Link>

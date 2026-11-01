@@ -93,7 +93,7 @@ export default async function Home() {
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-5">
           {products.slice(0, 8).map((p, i) => (
             <Reveal key={p.slug} delay={(i % 4) * 80}>
-              <ProductCard product={p} priority={i < 4} />
+              <ProductCard product={p} priority={i < 4} showUnisex={false} />
             </Reveal>
           ))}
         </div>
