@@ -6,12 +6,12 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About",
-  description: `JD’ORO is a womenswear label by ${site.founder}: small drops, made to order from deadstock fabric.`,
+  description: `JD’ORO is a womenswear label by ${site.founder}: small drops, made to order in rare-run fabrics.`,
   alternates: { canonical: "/about" },
 };
 
 const steps = [
-  { n: "01", title: "Find the fabric", body: "Each drop starts with leftover rolls from mills. When a roll runs out, so does the piece." },
+  { n: "01", title: "Find the fabric", body: "Each drop starts with limited rolls of surplus mill fabric. When a roll runs out, so does the piece." },
   { n: "02", title: "Draw the details", body: "Smocking, bubble hems, wave seams and buttons collected one card at a time." },
   { n: "03", title: "Cut when you order", body: "Nothing is made ahead. Your piece is cut and finished once you order it." },
 ];
@@ -28,7 +28,7 @@ export default function AboutPage() {
         </div>
         <p className="max-w-md text-[0.9375rem] leading-relaxed text-graphite lg:justify-self-end">
           JD’ORO is a small womenswear label by {site.founder}. The clothes are playful in the details and serious in how
-          they are made: small drops, cut to order, from fabric that would otherwise be thrown away.
+          they are made: small drops, cut to order, in rare-run fabrics we buy from mills in small quantities.
         </p>
       </section>
 

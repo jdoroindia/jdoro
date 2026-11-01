@@ -202,7 +202,7 @@ export const errors = {
 } as const;
 
 export const badges = {
-  deadstock: "Deadstock fabric",
+  deadstock: "Rare-run fabric",
   naturalFibre: "Natural fibre",
   readyToShip: "Ready to ship",
   madeToOrder: "Can be cut to measure",

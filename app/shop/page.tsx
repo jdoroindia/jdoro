@@ -4,7 +4,7 @@ import { drop } from "@/lib/products";
 
 export const metadata: Metadata = {
   title: "Shop",
-  description: `Shop Drop ${drop.number}: ${drop.name}. Small runs, made to order from deadstock fabric.`,
+  description: `Shop Drop ${drop.number}: ${drop.name}. Small runs, made to order in rare-run fabrics.`,
   alternates: { canonical: "/shop" },
 };
 

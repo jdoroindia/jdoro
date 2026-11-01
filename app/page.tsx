@@ -8,10 +8,10 @@ import { site } from "@/lib/site";
 const ethos = [
   { n: "01", title: "Small drops", body: "Limited runs of a few pieces each, never mass-produced." },
   { n: "02", title: "Made to order", body: "Cut once you order, so nothing sits in a warehouse or goes to waste." },
-  { n: "03", title: "Deadstock fabric", body: "Beautiful leftover rolls from mills, given a second life." },
+  { n: "03", title: "Rare-run fabric", body: "Limited rolls of surplus mill fabric. Once a roll is used up, it never comes back." },
 ];
 
-const ticker = ["Smocked waists", "Bubble hems", "Buttons with a story", "Deadstock fabric", "Made to order", "Drop 01"];
+const ticker = ["Smocked waists", "Bubble hems", "Buttons with a story", "Rare-run fabric", "Made to order", "Drop 01"];
 
 export default function Home() {
   return (
@@ -141,7 +141,7 @@ export default function Home() {
             Made by Jahnvi, for the girl who dresses up for herself.
           </h2>
           <p className="mt-5 max-w-md text-[0.9375rem] leading-relaxed text-graphite">
-            JD’ORO is a small label by {site.founder}. Every drop starts with a roll of leftover fabric and ends when it
+            JD’ORO is a small label by {site.founder}. Every drop starts with a limited roll of fabric and ends when it
             runs out. Pieces are cut to order, finished by hand, and made to be worn on ordinary days.
           </p>
           <Link href="/about" className="btn mt-8 text-ink hover:bg-ink hover:text-shell">

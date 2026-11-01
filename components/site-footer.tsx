@@ -9,7 +9,7 @@ export function SiteFooter() {
         <div>
           <Wordmark tone="paper" size="xl" className="h-14 w-auto md:h-16" />
           <p className="mt-6 max-w-sm text-sm leading-relaxed text-shell/70">
-            Small drops, made to order from deadstock fabric by {site.founder}.
+            Small drops, made to order in rare-run fabrics by {site.founder}.
           </p>
         </div>
         <nav aria-label="Footer" className="grid grid-cols-2 gap-x-6 gap-y-3">
