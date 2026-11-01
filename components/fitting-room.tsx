@@ -35,8 +35,8 @@ function whatsappLink(items: LookItem[], total: number, findProduct: (s: string)
 function boardGrid(n: number) {
   if (n <= 1) return "grid-cols-1 max-w-[17rem]";
   if (n === 2) return "grid-cols-2 max-w-xl";
-  if (n === 3) return "grid-cols-2 grid-rows-2 max-w-xl [&>*:first-child]:row-span-2";
-  return "grid-cols-2 max-w-xl";
+  if (n === 3) return "grid-cols-2 sm:grid-cols-3 max-w-2xl";
+  return "grid-cols-2 sm:grid-cols-3 max-w-2xl";
 }
 
 export function FittingRoom() {
@@ -212,8 +212,8 @@ export function FittingRoom() {
                   const img = imageFor(product, item.colour);
                   const on = activeEntry?.item.slug === item.slug;
                   return (
-                    <figure key={item.slug} className={cx("group relative flex flex-col bg-white shadow-[0_14px_28px_-12px_rgba(74,20,18,0.25)]", on && "ring-1 ring-bur")}>
-                      <button type="button" onClick={() => setActive(item.slug)} aria-label={`Select ${product.name}`} className="relative aspect-[3/4] w-full flex-1 overflow-hidden">
+                    <figure key={item.slug} className={cx("group relative flex flex-col self-start bg-white shadow-[0_14px_28px_-12px_rgba(74,20,18,0.25)]", on && "ring-1 ring-bur")}>
+                      <button type="button" onClick={() => setActive(item.slug)} aria-label={`Select ${product.name}`} className="relative aspect-[3/4] w-full overflow-hidden">
                         <ProductImage src={img.src} alt={product.name} fill={img.filled} sizes="(min-width:1024px) 22vw, 45vw" className="mix-blend-multiply" />
                       </button>
                       <figcaption className="flex items-center justify-between gap-2 border-t border-line px-2.5 py-2 text-[0.75rem]">
