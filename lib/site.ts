@@ -26,7 +26,8 @@ export const site = {
     hours: "Monday to Saturday, 10am – 6pm IST",
     replyTime: "We answer within one working day.",
   },
-  social: [{ label: "Instagram", href: "https://www.instagram.com/jdoro" }],
+  instagram: { handle: "@jdoro.in", href: "https://www.instagram.com/jdoro.in/" },
+  social: [{ label: "Instagram @jdoro.in", href: "https://www.instagram.com/jdoro.in/" }],
 };
 
 export const nav = {

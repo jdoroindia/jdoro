@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { Select } from "@/components/select";
 import { buttonStyles } from "@/components/ui";
 import { cx } from "@/lib/cx";
 import { buttons, errors, forms } from "@/lib/microcopy";
@@ -21,6 +22,7 @@ const subjects = [
 export function ContactForm() {
   const [state, setState] = useState<"idle" | "sending" | "done">("idle");
   const [invalid, setInvalid] = useState<string[]>([]);
+  const [subject, setSubject] = useState(subjects[0]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -66,10 +68,10 @@ export function ContactForm() {
             autoComplete="name"
             placeholder={forms.namePlaceholder}
             aria-invalid={invalid.includes("name")}
-            className={cx(field, invalid.includes("name") && "border-oro")}
+            className={cx(field, invalid.includes("name") && "border-b-2 border-error bg-error-soft")}
           />
           {invalid.includes("name") ? (
-            <p className="mt-2 text-[0.8125rem] text-oro">
+            <p role="alert" className="mt-2 text-[0.8125rem] font-normal text-error-ink">
               {errors.requiredField}
             </p>
           ) : null}
@@ -86,29 +88,27 @@ export function ContactForm() {
             autoComplete="email"
             placeholder={forms.emailPlaceholder}
             aria-invalid={invalid.includes("email")}
-            className={cx(field, invalid.includes("email") && "border-oro")}
+            className={cx(field, invalid.includes("email") && "border-b-2 border-error bg-error-soft")}
           />
           {invalid.includes("email") ? (
-            <p className="mt-2 text-[0.8125rem] text-oro">
+            <p role="alert" className="mt-2 text-[0.8125rem] font-normal text-error-ink">
               {errors.invalidEmail}
             </p>
           ) : null}
         </div>
 
         <div>
-          <label htmlFor="subject" className="eyebrow">
-            What it is about
-          </label>
-          <select
-            id="subject"
-            name="subject"
-            defaultValue={subjects[0]}
-            className={cx(field, "appearance-none")}
-          >
-            {subjects.map((subject) => (
-              <option key={subject}>{subject}</option>
-            ))}
-          </select>
+          <p className="eyebrow">What it is about</p>
+          <div className="mt-3">
+            <Select
+              name="subject"
+              label="What it is about"
+              size="md"
+              value={subject}
+              onChange={setSubject}
+              options={subjects.map((s) => ({ value: s, label: s }))}
+            />
+          </div>
         </div>
 
         <div>
@@ -121,10 +121,10 @@ export function ContactForm() {
             rows={5}
             placeholder={forms.messagePlaceholder}
             aria-invalid={invalid.includes("message")}
-            className={cx(field, "resize-none", invalid.includes("message") && "border-oro")}
+            className={cx(field, "resize-none", invalid.includes("message") && "border-b-2 border-error bg-error-soft")}
           />
           {invalid.includes("message") ? (
-            <p className="mt-2 text-[0.8125rem] text-oro">
+            <p role="alert" className="mt-2 text-[0.8125rem] font-normal text-error-ink">
               {errors.requiredField}
             </p>
           ) : null}

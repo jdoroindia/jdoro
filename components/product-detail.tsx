@@ -181,7 +181,7 @@ export function ProductDetail({ product }: { product: Product }) {
                         aria-invalid={Boolean(error) && missing.some((m) => m.key === f.key)}
                         className={cx(
                           "mt-1 block w-full border-b bg-transparent py-1.5 text-[0.875rem] text-ink outline-none focus:border-bur",
-                          error && missing.some((m) => m.key === f.key) ? "border-b-2 border-[#B3261E] bg-[#FDECEC]" : "border-line",
+                          error && missing.some((m) => m.key === f.key) ? "border-b-2 border-error bg-error-soft" : "border-line",
                         )}
                       />
                     </label>
@@ -212,9 +212,9 @@ export function ProductDetail({ product }: { product: Product }) {
           {error && (
             <p
               role="alert"
-              className="flex items-center gap-2.5 border border-[#B3261E] bg-[#FDECEC] px-4 py-3 text-[0.875rem] font-normal text-[#8C1D18]"
+              className="flex items-center gap-2.5 border border-error bg-error-soft px-4 py-3 text-[0.875rem] font-normal text-error-ink"
             >
-              <span aria-hidden className="grid size-5 shrink-0 place-items-center rounded-full bg-[#B3261E] text-[0.75rem] font-medium text-white">
+              <span aria-hidden className="grid size-5 shrink-0 place-items-center rounded-full bg-error text-[0.75rem] font-medium text-white">
                 !
               </span>
               {error}

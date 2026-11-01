@@ -150,6 +150,24 @@ export default function Home() {
         </Reveal>
       </section>
 
+      {/* Instagram */}
+      <section className="border-t border-line bg-shell/60">
+        <div className="mx-auto flex max-w-[88rem] flex-wrap items-center justify-between gap-6 px-5 py-12 md:px-10">
+          <div>
+            <p className="cap text-berry">Follow the drop</p>
+            <p className="mt-3 font-display text-[clamp(1.75rem,3vw,2.5rem)] font-normal text-bur">{site.instagram.handle}</p>
+          </div>
+          <a
+            href={site.instagram.href}
+            target="_blank"
+            rel="noreferrer"
+            className="btn border-bur text-bur hover:bg-bur hover:text-shell"
+          >
+            Open Instagram ↗
+          </a>
+        </div>
+      </section>
+
       {/* Ethos */}
       <section className="grid border-y border-line md:grid-cols-3">
         {ethos.map((e) => (

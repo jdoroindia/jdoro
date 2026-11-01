@@ -49,6 +49,11 @@ export default function ContactPage() {
                       </a>
                     </li>
                     <li>
+                      <a href={site.instagram.href} target="_blank" rel="noreferrer" className="link-draw text-ink hover:text-oro">
+                        Instagram {site.instagram.handle}
+                      </a>
+                    </li>
+                    <li>
                       <a href={`https://wa.me/${site.contact.whatsapp}`} className="link-draw text-ink hover:text-oro">
                         WhatsApp us
                       </a>

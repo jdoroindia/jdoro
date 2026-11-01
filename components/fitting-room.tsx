@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ProductImage } from "@/components/product-card";
+import { Select } from "@/components/select";
 import { useFittingRoom, type LookItem } from "@/lib/fitting-room";
 import { categories, findProduct, formatPrice, products, stylesWith, type Category, type Product } from "@/lib/products";
 import { site } from "@/lib/site";
@@ -35,6 +37,7 @@ export function FittingRoom() {
   const { items, ready, toggle, has, update, remove, total } = useFittingRoom();
   const [cat, setCat] = useState<Category | "all">("all");
   const [active, setActive] = useState<string | null>(null);
+  const router = useRouter();
 
   const list = cat === "all" ? products : products.filter((p) => p.category === cat);
   const look = items.map((i) => ({ item: i, product: findProduct(i.slug)! })).filter((x) => x.product);
@@ -167,23 +170,18 @@ export function FittingRoom() {
                   </Link>
                   <div className="mt-1 flex items-center gap-2 text-[0.6875rem] text-ash">
                     {item.colour} ·
-                    <label className="sr-only" htmlFor={`size-${item.slug}`}>
-                      Size
-                    </label>
-                    <select
-                      id={`size-${item.slug}`}
+                    <Select
+                      label={`Size for ${product.name}`}
                       value={item.size}
-                      onChange={(e) => {
-                        if (e.target.value === "Custom") window.location.href = `/shop/${product.slug}`;
-                        else update(item.slug, { size: e.target.value, measurements: undefined });
+                      onChange={(v) => {
+                        if (v === "Custom") router.push(`/shop/${product.slug}#custom-measurements`);
+                        else update(item.slug, { size: v, measurements: undefined });
                       }}
-                      className="cursor-pointer appearance-none border-b border-line bg-transparent pr-1 text-ink"
-                    >
-                      {product.sizes.map((s) => (
-                        <option key={s}>{s}</option>
-                      ))}
-                      <option value="Custom">Custom fit</option>
-                    </select>
+                      options={[
+                        ...product.sizes.map((s) => ({ value: s, label: s })),
+                        { value: "Custom", label: "Custom fit", hint: item.size === "Custom" ? "" : "add measurements" },
+                      ]}
+                    />
                   </div>
                   {item.size === "Custom" && item.measurements && (
                     <p className="mt-1 text-[0.625rem] leading-snug text-bur">{item.measurements}</p>
