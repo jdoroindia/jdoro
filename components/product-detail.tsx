@@ -1,18 +1,27 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ProductImage } from "@/components/product-card";
 import { useFittingRoom } from "@/lib/fitting-room";
 import { formatPrice, type Product } from "@/lib/products";
 import { cx } from "@/lib/cx";
 
+/** Body measurements in inches. Placeholder values: replace with JD’ORO's own block. */
+const sizeChart = [
+  { size: "XS", bust: 32, waist: 26, hip: 35 },
+  { size: "S", bust: 34, waist: 28, hip: 37 },
+  { size: "M", bust: 36, waist: 30, hip: 39 },
+  { size: "L", bust: 38, waist: 32, hip: 41 },
+  { size: "XL", bust: 40, waist: 34, hip: 43 },
+];
+
 export function ProductDetail({ product }: { product: Product }) {
-  const { add, has, ready } = useFittingRoom();
+  const { add } = useFittingRoom();
   const [colourName, setColourName] = useState(product.colours[0].name);
   const [size, setSize] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
   const [error, setError] = useState(false);
+  const chartRef = useRef<HTMLDialogElement>(null);
   const colour = product.colours.find((c) => c.name === colourName) ?? product.colours[0];
   const views = [colour.image, colour.back].filter(Boolean) as string[];
   const filled = Boolean(colour.back);
@@ -73,7 +82,16 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
 
         <div className="mt-8">
-          <p className={cx("cap", error ? "text-berry" : "text-ash")}>{error ? "Pick a size first" : "Size"}</p>
+          <div className="flex items-center justify-between">
+            <p className={cx("cap", error ? "text-berry" : "text-ash")}>{error ? "Pick a size first" : "Size"}</p>
+            <button
+              type="button"
+              onClick={() => chartRef.current?.showModal()}
+              className="cap text-ink underline decoration-line underline-offset-4 hover:text-bur hover:decoration-bur"
+            >
+              Size chart
+            </button>
+          </div>
           <div className="mt-3 grid grid-cols-5 gap-2">
             {product.sizes.map((s) => (
               <button
@@ -101,12 +119,47 @@ export function ProductDetail({ product }: { product: Product }) {
           <button type="button" onClick={addToLook} className="btn border-bur bg-bur text-shell hover:border-ink hover:bg-ink">
             {added ? "✓ Added to Fitting Room" : "Add to Fitting Room"}
           </button>
-          {(added || (ready && has(product.slug))) && (
-            <Link href="/fitting-room" className="btn text-ink hover:bg-ink hover:text-shell">
-              Style your look →
-            </Link>
-          )}
         </div>
+
+        <dialog
+          ref={chartRef}
+          aria-labelledby="size-chart-title"
+          onClick={(e) => e.target === e.currentTarget && chartRef.current?.close()}
+          className="m-auto w-[min(92vw,30rem)] bg-bone p-0 text-ink backdrop:bg-ink/50 backdrop:backdrop-blur-sm"
+        >
+          <div className="p-6 md:p-8">
+          <div className="mb-5 flex items-center justify-between">
+            <h2 id="size-chart-title" className="font-display text-2xl font-normal text-bur">Size chart</h2>
+            <button type="button" onClick={() => chartRef.current?.close()} className="cap text-ash hover:text-ink" aria-label="Close size chart">
+              Close ✕
+            </button>
+          </div>
+          <table className="w-full text-left text-[0.8125rem]">
+            <caption className="sr-only">Body measurements in inches</caption>
+            <thead>
+              <tr className="border-b border-line text-ash">
+                <th className="py-2 font-normal">Size</th>
+                <th className="py-2 font-normal">Bust</th>
+                <th className="py-2 font-normal">Waist</th>
+                <th className="py-2 font-normal">Hip</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sizeChart.map((r) => (
+                <tr key={r.size} className={cx("border-b border-line", size === r.size && "bg-shell")}>
+                  <td className="py-2.5">{r.size}</td>
+                  <td>{r.bust}″</td>
+                  <td>{r.waist}″</td>
+                  <td>{r.hip}″</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p className="pb-2 pt-3 text-[0.75rem] text-ash">
+            Body measurements in inches. Measure the fullest part of the bust and hip, and the narrowest part of the waist.
+          </p>
+          </div>
+        </dialog>
 
         <dl className="mt-10 divide-y divide-line border-y border-line text-[0.8125rem]">
           {[
