@@ -15,23 +15,55 @@ const sizeChart = [
   { size: "XL", bust: 40, waist: 34, hip: 43 },
 ];
 
+const CUSTOM = "Custom";
+
+/** Fields for a made-to-measure request, in inches. */
+const measureFields = [
+  { key: "bust", label: "Bust", required: true },
+  { key: "waist", label: "Waist", required: true },
+  { key: "hip", label: "Hip", required: true },
+  { key: "shoulder", label: "Shoulder", required: false },
+  { key: "length", label: "Length", required: false },
+  { key: "notes", label: "Notes", required: false },
+];
+
 export function ProductDetail({ product }: { product: Product }) {
   const { add } = useFittingRoom();
   const [colourName, setColourName] = useState(product.colours[0].name);
   const [size, setSize] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
-  const [error, setError] = useState(false);
+  const [attempted, setAttempted] = useState(false);
+  const [measures, setMeasures] = useState<Record<string, string>>({});
   const chartRef = useRef<HTMLDialogElement>(null);
   const colour = product.colours.find((c) => c.name === colourName) ?? product.colours[0];
   const views = [colour.image, colour.back].filter(Boolean) as string[];
   const filled = Boolean(colour.back);
 
+  const custom = size === CUSTOM;
+  const missing = custom ? measureFields.filter((f) => f.required && !measures[f.key]?.trim()) : [];
+
+  const names = missing.map((f) => f.label.toLowerCase());
+  const problem = !size
+    ? "Please choose a size, or select “Made to your measurements”."
+    : names.length
+      ? `Please add your ${names.length > 1 ? `${names.slice(0, -1).join(", ")} and ${names.at(-1)}` : names[0]} measurement${names.length > 1 ? "s" : ""} to continue.`
+      : null;
+  // Only shown after the shopper tries to add; clears itself as fields are filled.
+  const error = attempted ? problem : null;
+
   function addToLook() {
-    if (!size) {
-      setError(true);
+    if (problem || !size) {
+      setAttempted(true);
       return;
     }
-    add({ slug: product.slug, colour: colour.name, size });
+    setAttempted(false);
+    const measurements = custom
+      ? measureFields
+          .filter((f) => measures[f.key]?.trim())
+          .map((f) => `${f.label} ${measures[f.key].trim()}${f.key === "notes" ? "" : "″"}`)
+          .join(", ")
+      : undefined;
+    add({ slug: product.slug, colour: colour.name, size, measurements });
     setAdded(true);
   }
 
@@ -83,7 +115,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <div className="mt-8">
           <div className="flex items-center justify-between">
-            <p className={cx("cap", error ? "text-berry" : "text-ash")}>{error ? "Pick a size first" : "Size"}</p>
+            <p className="cap text-ash">Size</p>
             <button
               type="button"
               onClick={() => chartRef.current?.showModal()}
@@ -100,7 +132,6 @@ export function ProductDetail({ product }: { product: Product }) {
                 aria-pressed={size === s}
                 onClick={() => {
                   setSize(s);
-                  setError(false);
                   setAdded(false);
                 }}
                 className={cx(
@@ -111,11 +142,84 @@ export function ProductDetail({ product }: { product: Product }) {
                 {s}
               </button>
             ))}
+            <button
+              type="button"
+              aria-pressed={custom}
+              aria-expanded={custom}
+              aria-controls="custom-measurements"
+              onClick={() => {
+                setSize(CUSTOM);
+                setAdded(false);
+              }}
+              className={cx(
+                "col-span-5 border py-3 text-[0.8125rem] transition-colors",
+                custom ? "border-bur bg-bur text-shell" : "border-dashed border-mist hover:border-bur hover:text-bur",
+              )}
+            >
+              Made to your measurements
+            </button>
           </div>
-          <p className="mt-3 text-[0.75rem] text-ash">Made to order. Between sizes? Add a note at checkout and we’ll cut to your measure.</p>
+
+          {custom ? (
+            <fieldset id="custom-measurements" className="mt-4 border border-line bg-white p-4">
+              <legend className="cap px-1 text-bur">Your measurements (inches)</legend>
+              <div className="grid grid-cols-3 gap-3">
+                {measureFields
+                  .filter((f) => f.key !== "notes")
+                  .map((f) => (
+                    <label key={f.key} className="block text-[0.6875rem] text-ash">
+                      {f.label}
+                      {f.required && <span className="text-berry"> *</span>}
+                      <input
+                        inputMode="decimal"
+                        value={measures[f.key] ?? ""}
+                        onChange={(e) => {
+                          setMeasures((m) => ({ ...m, [f.key]: e.target.value }));
+                          setAdded(false);
+                        }}
+                        placeholder="—"
+                        aria-invalid={Boolean(error) && missing.some((m) => m.key === f.key)}
+                        className={cx(
+                          "mt-1 block w-full border-b bg-transparent py-1.5 text-[0.875rem] text-ink outline-none focus:border-bur",
+                          error && missing.some((m) => m.key === f.key) ? "border-b-2 border-[#B3261E] bg-[#FDECEC]" : "border-line",
+                        )}
+                      />
+                    </label>
+                  ))}
+              </div>
+              <label className="mt-4 block text-[0.6875rem] text-ash">
+                Anything else? (height, fit you like, occasion)
+                <textarea
+                  rows={2}
+                  value={measures.notes ?? ""}
+                  onChange={(e) => {
+                    setMeasures((m) => ({ ...m, notes: e.target.value }));
+                    setAdded(false);
+                  }}
+                  className="mt-1 block w-full resize-none border-b border-line bg-transparent py-1.5 text-[0.875rem] text-ink outline-none focus:border-bur"
+                />
+              </label>
+              <p className="mt-3 text-[0.6875rem] text-ash">
+                No extra charge. We’ll confirm the fit with you on WhatsApp before we cut. Allow 3–5 extra days.
+              </p>
+            </fieldset>
+          ) : (
+            <p className="mt-3 text-[0.75rem] text-ash">Made to order. Between sizes? Choose “Made to your measurements”.</p>
+          )}
         </div>
 
         <div className="mt-8 flex flex-col gap-3">
+          {error && (
+            <p
+              role="alert"
+              className="flex items-center gap-2.5 border border-[#B3261E] bg-[#FDECEC] px-4 py-3 text-[0.875rem] font-normal text-[#8C1D18]"
+            >
+              <span aria-hidden className="grid size-5 shrink-0 place-items-center rounded-full bg-[#B3261E] text-[0.75rem] font-medium text-white">
+                !
+              </span>
+              {error}
+            </p>
+          )}
           <button type="button" onClick={addToLook} className="btn border-bur bg-bur text-shell hover:border-ink hover:bg-ink">
             {added ? "✓ Added to Fitting Room" : "Add to Fitting Room"}
           </button>

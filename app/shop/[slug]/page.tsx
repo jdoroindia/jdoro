@@ -38,7 +38,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       </nav>
       <ProductDetail product={product} />
       <section className="mx-auto max-w-[88rem] border-t border-line px-5 py-16 md:px-10">
-        <h2 className="font-display text-3xl font-normal">Style it with</h2>
+        <h2 className="font-display text-3xl font-normal">You’ll also look good in</h2>
         <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-10 lg:grid-cols-4 lg:gap-x-5">
           {related.map((p) => (
             <ProductCard key={p.slug} product={p} />

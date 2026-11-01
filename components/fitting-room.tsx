@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { ProductImage } from "@/components/product-card";
 import { useFittingRoom, type LookItem } from "@/lib/fitting-room";
-import { categories, findProduct, formatPrice, products, type Category, type Product } from "@/lib/products";
+import { categories, findProduct, formatPrice, products, stylesWith, type Category, type Product } from "@/lib/products";
 import { site } from "@/lib/site";
 import { cx } from "@/lib/cx";
 
@@ -24,7 +24,8 @@ function imageFor(p: Product, colour: string) {
 function whatsappLink(items: LookItem[], total: number) {
   const lines = items.map((i) => {
     const p = findProduct(i.slug)!;
-    return `• ${p.name} (${i.colour}, ${i.size}) ${formatPrice(p.price)}`;
+    const size = i.size === "Custom" ? `made to measure: ${i.measurements ?? "measurements to confirm"}` : i.size;
+    return `• ${p.name} (${i.colour}, ${size}) ${formatPrice(p.price)}`;
   });
   const text = `Hi JD’ORO, I’d like to order this look:\n${lines.join("\n")}\nTotal: ${formatPrice(total)}`;
   return `https://wa.me/${site.contact.whatsapp}?text=${encodeURIComponent(text)}`;
@@ -38,7 +39,9 @@ export function FittingRoom() {
   const list = cat === "all" ? products : products.filter((p) => p.category === cat);
   const look = items.map((i) => ({ item: i, product: findProduct(i.slug)! })).filter((x) => x.product);
   const activeEntry = look.find((x) => x.item.slug === active) ?? look[look.length - 1];
-  const recommended = products.filter((p) => !has(p.slug)).slice(0, 3);
+  const recommended = look.length
+    ? stylesWith(look.map((x) => x.item.slug), 3)
+    : products.filter((p) => !has(p.slug)).slice(0, 3);
 
   return (
     <div className="grid border-b border-line lg:min-h-[calc(100svh-6.5rem)] lg:grid-cols-[18rem_1fr_21rem] xl:grid-cols-[20rem_1fr_23rem]">
@@ -118,7 +121,7 @@ export function FittingRoom() {
               >
                 <ProductImage src={img.src} alt="" fill={img.filled} sizes="(min-width:1024px) 22vw, 45vw" className="mix-blend-multiply" />
                 <span className="cap absolute bottom-2 left-2 bg-white/95 px-2 py-1.5 text-left text-[0.5625rem]">
-                  <b className="text-berry">●</b> {product.name} · {item.size}
+                  <b className="text-berry">●</b> {product.name} · {item.size === "Custom" ? "Custom fit" : item.size}
                 </span>
               </button>
             );
@@ -170,14 +173,21 @@ export function FittingRoom() {
                     <select
                       id={`size-${item.slug}`}
                       value={item.size}
-                      onChange={(e) => update(item.slug, { size: e.target.value })}
+                      onChange={(e) => {
+                        if (e.target.value === "Custom") window.location.href = `/shop/${product.slug}`;
+                        else update(item.slug, { size: e.target.value, measurements: undefined });
+                      }}
                       className="cursor-pointer appearance-none border-b border-line bg-transparent pr-1 text-ink"
                     >
                       {product.sizes.map((s) => (
                         <option key={s}>{s}</option>
                       ))}
+                      <option value="Custom">Custom fit</option>
                     </select>
                   </div>
+                  {item.size === "Custom" && item.measurements && (
+                    <p className="mt-1 text-[0.625rem] leading-snug text-bur">{item.measurements}</p>
+                  )}
                   <button type="button" onClick={() => remove(item.slug)} className="mt-1 text-[0.6875rem] text-ash underline-offset-2 hover:text-berry hover:underline">
                     Remove
                   </button>

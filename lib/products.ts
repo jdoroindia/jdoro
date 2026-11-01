@@ -26,6 +26,8 @@ export type Product = {
   fabric: string;
   colours: Colour[];
   sizes: string[];
+  /** Hand-picked pieces that complete the outfit (layer or contrast, never a near-duplicate). */
+  pairsWith: string[];
   /** Pieces left in the run. Small drops, so this is shown on the page. */
   left: number;
 };
@@ -43,6 +45,7 @@ export const drop = {
 export const products: Product[] = [
   {
     slug: "candy-stripe-shirt",
+    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Candy Stripe Shirt",
     price: 3800,
     category: "tops",
@@ -56,6 +59,7 @@ export const products: Product[] = [
   },
   {
     slug: "bubble-tie-top",
+    pairsWith: ["patchwork-denim-jacket","shell-button-shirt"],
     name: "Bubble Tie Top",
     price: 3200,
     category: "tops",
@@ -72,6 +76,7 @@ export const products: Product[] = [
   },
   {
     slug: "bell-sleeve-tie-top",
+    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Bell Sleeve Tie Top",
     price: 3600,
     category: "tops",
@@ -84,6 +89,7 @@ export const products: Product[] = [
   },
   {
     slug: "wave-seam-dress",
+    pairsWith: ["patchwork-denim-jacket","shell-button-shirt"],
     name: "Wave Seam Dress",
     price: 5900,
     category: "dresses",
@@ -96,6 +102,7 @@ export const products: Product[] = [
   },
   {
     slug: "patchwork-denim-jacket",
+    pairsWith: ["bubble-tie-top","candy-stripe-shirt","wave-seam-dress","ruffle-sleeve-shirt"],
     name: "Patchwork Denim Jacket",
     price: 6800,
     category: "jackets",
@@ -108,6 +115,7 @@ export const products: Product[] = [
   },
   {
     slug: "button-story-shirt",
+    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Button Story Shirt",
     price: 4200,
     category: "tops",
@@ -120,6 +128,7 @@ export const products: Product[] = [
   },
   {
     slug: "shell-button-shirt",
+    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Shell Button Shirt",
     price: 3900,
     category: "tops",
@@ -132,6 +141,7 @@ export const products: Product[] = [
   },
   {
     slug: "wave-placket-shirt",
+    pairsWith: ["patchwork-denim-jacket","pearl-loop-vest"],
     name: "Wave Placket Shirt",
     price: 3600,
     category: "tops",
@@ -144,6 +154,7 @@ export const products: Product[] = [
   },
   {
     slug: "ruffle-sleeve-shirt",
+    pairsWith: ["pearl-loop-vest","patchwork-denim-jacket"],
     name: "Ruffle Sleeve Shirt",
     price: 3700,
     category: "tops",
@@ -156,6 +167,7 @@ export const products: Product[] = [
   },
   {
     slug: "pearl-loop-vest",
+    pairsWith: ["ruffle-sleeve-shirt","candy-stripe-shirt","button-story-shirt","wave-placket-shirt"],
     name: "Pearl Loop Vest",
     price: 3400,
     category: "tops",
@@ -177,6 +189,19 @@ export const categories: { id: Category | "all"; label: string }[] = [
 
 export function findProduct(slug: string) {
   return products.find((p) => p.slug === slug);
+}
+
+/** Pieces that style with the given ones: curated pairs first, never a piece already chosen. */
+export function stylesWith(slugs: string[], limit = 4) {
+  const chosen = new Set(slugs);
+  const out: Product[] = [];
+  for (const slug of slugs) {
+    for (const pair of findProduct(slug)?.pairsWith ?? []) {
+      const p = findProduct(pair);
+      if (p && !chosen.has(p.slug) && !out.includes(p)) out.push(p);
+    }
+  }
+  return out.slice(0, limit);
 }
 
 export function formatPrice(n: number) {

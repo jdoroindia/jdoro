@@ -4,7 +4,14 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { findProduct } from "@/lib/products";
 
 /** One piece in the look. Stored in localStorage so it survives reloads. */
-export type LookItem = { slug: string; colour: string; size: string };
+export type LookItem = {
+  slug: string;
+  colour: string;
+  /** A standard size, or "Custom" for made to measure. */
+  size: string;
+  /** Present when size is "Custom", e.g. "Bust 34″, Waist 28″, Hip 38″". */
+  measurements?: string;
+};
 
 type Ctx = {
   items: LookItem[];
